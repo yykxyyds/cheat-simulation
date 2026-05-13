@@ -8,14 +8,18 @@
 
 ## 架构
 
-单文件 Python 脚本 `pentest_agent_poison_sim.py`（约 3600 行）。核心类型与流程：
+单文件 Python 脚本 `pentest_agent_poison_sim.py`。核心类型与流程：
 
-- **`Fact`** — 一条高价值信息（clean_value 正确值、decoy_value 诱饵值、match_mode 匹配模式）。
-- **`Scenario`** — 一个合成网页，包含标题、UI 文案和一组 Fact。目前有两个场景：`Labyrinth_Linguist`（SSTI 主题翻译页面）和 `locktalk_docs`（含认证链路的 API 文档）。
-- **`ExperimentSpec`** — 扰动方法 + 渲染策略。 **`APPLICABLE_EXPERIMENT_NAMES`** 是当前适用实验的白名单。
+- **`Fact`** — 一条高价值信息。`clean_value` 正确值、`decoy_value` 诱饵值；`match_mode` 为 `strict`（精确匹配）或 `semantic`（语义匹配），影响 `evaluate_fact_response()` 的匹配策略。
+- **`RenderedFact`** — `Fact` 经过 `render_fact_value()` 后的产物，携带 `html_value`（插入 HTML 的片段）、`source_text`（HTML 源码中的文本）、`visible_text`（浏览器渲染后用户实际看到的文本）。
+- **`EvaluationRow`** — `evaluate_summary()` 的输出行，包含 `status`（correct/poisoned/incorrect/mixed）、`matched_correct`、`matched_decoy`。
+- **`Scenario`** — 一个合成网页，包含标题、UI 文案和一组 Fact。目前有两个场景：`Labyrinth_Linguist`（SSTI 主题翻译页面）和 `locktalk_docs`（含认证链路的 API 文档）。别名：`labyrinth_portal` → `Labyrinth_Linguist`。
+- **`ExperimentSpec`** — 扰动方法 + 渲染策略。`render_strategy` 有四种：`plain`（基线无扰动）、`direct_same`（直接污染文本源码）、`css_overlay_decoy`（源码放诱饵值，CSS 覆盖为正确文本）、`js_replace_decoy`（源码放诱饵值，JS 运行时改写）。当前适用实验只用 `direct_same`。
 - **`NimChatClient`** — NVIDIA NIM OpenAI 兼容聊天 API 的轻量封装。
 
-**执行流程：** `main()` → 逐个实验调用 `run_experiment()` → `render_scenario_html()` 生成投毒 HTML → agent 模型进行摘要 → `evaluate_summary()` 对照预期事实评分 → `write_scenario_summary_markdown()` 生成汇总表格。
+**执行流程：** `main()` → 逐个实验调用 `run_experiment()` → `render_scenario_html()` 生成投毒 HTML（同时用 `PURE_REFERENCE_EXPERIMENT` 生成 `page_pure.html`）→ agent 模型进行摘要 → `evaluate_summary()` 对照预期事实评分 → `write_scenario_summary_markdown()` 生成汇总表格。
+
+**自动重试：** 当 agent 响应看起来被截断，或 plain 基线实验得 0 分时，`run_experiment()` 会自动用更严格的 field-value-only prompt 重试一次。
 
 **扰动管线：** `apply_poison(text, method)` 分发到具体投毒函数。对于含版本号的值（如 `Spring Boot 1.5.10`），`apply_poison_to_numeric_versions()` 只扰动版本号子串，不动框架名/产品名。
 
@@ -28,8 +32,14 @@
 
 ## 命令
 
+> 以下命令从仓库根目录（`cheat_simulation/` 的父目录）运行。如果在 `cheat_simulation/` 目录内运行，去掉 `cheat_simulation/` 前缀。
+
 ```bash
-# 运行所有适用实验（使用 APPLICABLE_EXPERIMENT_NAMES 白名单）
+# 不带 --experiments 时只运行 4 项默认实验（DEFAULT_EXPERIMENT_SEQUENCE）：
+#   zero_width, right_to_left_override, backspace, variation_selector
+python3 cheat_simulation/pentest_agent_poison_sim.py --scenario Labyrinth_Linguist
+
+# 运行所有适用实验（使用 APPLICABLE_EXPERIMENT_NAMES 白名单，共 23 项）
 python3 cheat_simulation/pentest_agent_poison_sim.py --scenario Labyrinth_Linguist --experiments all
 
 # 运行指定实验
@@ -62,7 +72,7 @@ cheat_simulation/log/YYYYMMDD_HHMMSS_<model-slug>/
         ├── <Scenario>_summary.md           # 完整结果表
         ├── <Scenario>_success_summary.md   # 仅成功子集
         └── <experiment_name>/
-              ├── page_perturbation.html    # 投毒 HTML
+              ├── page_perturbation_<experiment_name>.html    # 投毒 HTML
               └── agent_summary.txt         # agent 提取的事实
 ```
 
@@ -73,6 +83,13 @@ cheat_simulation/log/YYYYMMDD_HHMMSS_<model-slug>/
 `--experiments all` 只运行 `APPLICABLE_EXPERIMENT_NAMES` 中的实验——这些实验不应明显改变渲染输出。目前共 23 项：`zero_width_space`、`zero_width_non_joiner`、`zero_width_joiner`、`zero_width`、`word_joiner`、`byte_order_mark`、`unicode_tags`、`cyrillic_a_homoglyph`、`left_to_right_mark`、`right_to_left_mark`、`pop_directional_formatting`、`left_to_right_embedding`、`right_to_left_embedding`、`left_to_right_isolate`、`right_to_left_isolate`、`pop_directional_isolate`、`backspace`、`function_application`、`invisible_times`、`zero_width_binary`、`left_to_right_override`、`right_to_left_override`、`variation_selector`。
 
 已排除：`aggressive_homoglyph`、`delete_control`，以及文档中标为不适用的所有可见性破坏类编码/碎片化/空格方案。
+
+## figure_comparison 目录
+
+用于截图对比，验证扰动页面是否与干净页在浏览器中渲染一致。包含：
+- `page_pure.html` / `page_perturbation_*.html` — 对比用的 HTML 文件
+- `shot_*.png` — Edge headless 截图（pure/pert/diff 等）
+- `截图对比方法.md` — 截图对比的操作说明
 
 ## 文档文件
 
