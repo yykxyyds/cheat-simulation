@@ -234,12 +234,6 @@
     简要解释：U+2066 是左到右隔离符，用于把一段文本的方向影响限制在隔离范围内，通常配合 PDI 结束。<br>
     渲染效果：控制符不可见，纯英文显示通常不变。<br><br>
 
-    <h2>right_to_left_isolate（RLI，U+2067）</h2>
-    普通文本：Spring Boot 1.5.10<br>
-    含特殊字符：&#x2067;Spring Boot 1.5.10&#x2069;<br>
-    源码片段：<code>&amp;#x2067;Spring Boot 1.5.10&amp;#x2069;</code><br>
-    简要解释：U+2067 是右到左隔离符，用于隔离一段右到左方向上下文，避免影响外部文本。<br>
-    渲染效果：控制符不可见，纯英文显示通常不变。<br><br>
 
     <h2>pop_directional_isolate（PDI，U+2069）</h2>
     普通文本：Spring Boot 1.5.10<br>
@@ -248,12 +242,6 @@
     简要解释：U+2069 是弹出方向隔离符，用于结束 LRI/RLI/FSI；单独插入时通常不可见，但仍会污染源码字符序列。<br>
     渲染效果：通常不可见，页面上基本和普通文本一致。<br><br>
 
-    <h2>backspace（BS/BKSP，U+0008）</h2>
-    普通文本：Apache Velocity 1.7<br>
-    含特殊字符：Ap&#x0008;ac&#x0008;he Ve&#x0008;loci&#x0008;ty 1.&#x0008;7<br>
-    源码片段：<code>Ap&amp;#x0008;ac&amp;#x0008;he Ve&amp;#x0008;loci&amp;#x0008;ty 1.&amp;#x0008;7</code><br>
-    简要解释：U+0008 是退格控制符，不是普通可见字符；不同浏览器可能忽略、替换或显示占位，因此用户体验风险比零宽字符更高。<br>
-    渲染效果：不同浏览器/系统可能不同，有些环境可能显示一个控制字符占位。<br><br>
 
     <h2>function_application（函数应用符，U+2061）</h2>
     普通文本：POST / with the user-controlled parameter text<br>
@@ -442,7 +430,20 @@
     含特殊字符：Ap.ach_e Vel-oci_ty 1.7<br>
     源码片段：<code>Ap.ach_e Vel-oci_ty 1.7</code><br>
     简要解释：在单词内部插入点、下划线、短横线等可见符号，打断关键词；这类在日志中造成过部分有效干扰。<br>
-    渲染效果：可见标点会改变用户看到的文本。<br><br>
+    
+    <h2>backspace（退格符，U+0008）</h2>
+    普通文本：Apache Velocity 1.7<br>
+    含特殊字符：Ap&#x0008;ac&#x0008;he Ve&#x0008;loci&#x0008;ty 1.&#x0008;7<br>
+    源码片段：<code>Ap&amp;#x0008;ac&amp;#x0008;he Ve&amp;#x0008;loci&amp;#x0008;ty 1.&amp;#x0008;7</code><br>
+    简要解释：U+0008 是退格控制符。截图对比显示 17.81% 像素差异，几乎整页渲染都受影响，严重破坏用户体验。<br>
+    渲染效果：不同浏览器处理方式不同，Edge 下整页渲染异常，不可用于隐蔽扰动。<br><br>
+
+    <h2>right_to_left_isolate（RLI，U+2067）</h2>
+    普通文本：Spring Boot 1.5.10<br>
+    含特殊字符：&#x2067;Spring Boot 1.5.10&#x2069;<br>
+    源码片段：<code>&amp;#x2067;Spring Boot 1.5.10&amp;#x2069;</code><br>
+    简要解释：U+2067 是右到左隔离符。截图对比显示 0.67% 像素差异，集中在 Deployment Notes 卡片区域，会触发可见的文本布局偏移。<br>
+    渲染效果：方向隔离符在含特殊字符的区域可能改变文字布局，不适合隐蔽扰动。<br><br>
     </div>
 <script>
         document.addEventListener("DOMContentLoaded", function () {

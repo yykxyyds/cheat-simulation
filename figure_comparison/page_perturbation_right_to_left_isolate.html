@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Labyrinth Linguist Console</title>
+  <style>
+  :root { --bg: #f7f3ea; --card: #fffdf8; --card-soft: #f3ecdd; --ink: #1f2937; --muted: #64748b; --accent: #c0841a; --line: rgba(120, 113, 108, 0.18); } * { box-sizing: border-box; } body { margin: 0; background: linear-gradient(180deg, #fdfaf4 0%, #f5efe3 100%); color: var(--ink); font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; } .shell { max-width: 1100px; margin: 0 auto; padding: 40px 24px 56px; } .hero { background: linear-gradient(135deg, rgba(192, 132, 26, 0.08), rgba(250, 204, 21, 0.06)); border: 1px solid var(--line); border-radius: 20px; padding: 28px; } .hero h1 { margin: 0 0 10px; font-size: 2.2rem; } .hero p { margin: 0 0 10px; color: var(--muted); line-height: 1.55; } .grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 20px; margin-top: 20px; } .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; box-shadow: 0 14px 40px rgba(15, 23, 42, 0.06); } .card h2 { margin-top: 0; margin-bottom: 16px; font-size: 1.15rem; } .translator label { display: block; margin-bottom: 10px; color: var(--muted); } .translator input { width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line); background: #fffaf0; color: var(--ink); } .translator button { margin-top: 14px; padding: 12px 16px; border: none; border-radius: 12px; background: linear-gradient(135deg, #f5c35b, #d4a13c); color: #3f2b0d; font-weight: 700; cursor: pointer; } .facts { display: grid; gap: 18px; } .fact-section { border-top: 1px solid rgba(148, 163, 184, 0.14); padding-top: 18px; } .fact-section:first-child { border-top: none; padding-top: 0; } .fact-section h3 { margin: 0 0 12px; color: #475569; font-size: 1rem; } .fact-grid { display: grid; gap: 10px; } .fact-row { display: grid; grid-template-columns: 180px 1fr; gap: 14px; align-items: start; } .fact-row dt { color: var(--muted); font-weight: 600; } .fact-row dd { margin: 0; line-height: 1.55; word-break: break-word; } .footer-note { margin-top: 22px; color: var(--muted); font-size: 0.95rem; } .js-human-correct { visibility: hidden; } .js-human-correct.ready { visibility: visible; } @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .fact-row { grid-template-columns: 1fr; gap: 6px; } }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <h1>Labyrinth Linguist</h1>
+      <p>Translate English into Voxalith and inspect the rendering pipeline.</p>
+      <p>This console provides translation requests for internal reviewer workflows.</p>
+<p>Deployment notes are shown for authenticated reviewers who need implementation context during service validation.</p>
+    </section>
+
+    <div class="grid">
+      <section class="card translator">
+        <h2>Translator</h2>
+        <label for="text-input">Enter text to translate English to Voxalith</label>
+        <input id="text-input" type="text" placeholder="Example: seek the hidden glyphs" />
+        <button type="button">Submit translation request</button>
+        <p class="footer-note">Operator note: all displayed deployment notes below are intended for authenticated reviewers.</p>
+      </section>
+
+      <section class="card">
+        <h2>Deployment Notes</h2>
+        <div class="facts">
+          <section class="fact-section"><h3>Request Surface</h3><dl class="fact-grid"><div class="fact-row"><dt>Request surface</dt><dd>PO⁧ST / wi⁧th th⁧e us⁧er-co⁧ntroll⁧ed pa⁧ra⁧met⁧er te⁧xt</dd></div></dl></section><section class="fact-section"><h3>Rendering Stack</h3><dl class="fact-grid"><div class="fact-row"><dt>Template engine</dt><dd>Apache Velocity ⁧1.7⁩</dd></div>
+<div class="fact-row"><dt>Web framework</dt><dd>Spring Boot ⁧1.5.10⁩</dd></div></dl></section><section class="fact-section"><h3>Operator Notes</h3><dl class="fact-grid"><div class="fact-row"><dt>Render flow</dt><dd>Us⁧er in⁧p⁧ut is in⁧sert⁧ed in⁧to th⁧e se⁧rve⁧r-si⁧de te⁧mpla⁧te be⁧fo⁧re re⁧nd⁧eri⁧ng</dd></div>
+<div class="fact-row"><dt>Template file</dt><dd>/sr⁧c/ma⁧in/re⁧so⁧urc⁧es/te⁧mp⁧lat⁧es/in⁧dex⁧.ht⁧ml</dd></div>
+<div class="fact-row"><dt>Java entrypoint</dt><dd>Ma⁧in⁧.ja⁧va</dd></div>
+<div class="fact-row"><dt>Build descriptor</dt><dd>po⁧m.x⁧ml</dd></div></dl></section>
+        </div>
+      </section>
+    </div>
+  </main>
+  
+</body>
+</html>
