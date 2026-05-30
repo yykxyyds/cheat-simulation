@@ -1,0 +1,9 @@
+{
+    "editor.wordWrap": "on",
+    "[markdown]": {
+        "editor.wordWrap": "on"
+    },
+    "markdown.styles": [
+        ".vscode/markdown-table.css"
+    ]
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CorpNet Network Tester</title>
+  <style>
+:root { --bg: #f0f2f5; --card: #ffffff; --ink: #1a1a2e; --muted: #64748b; --border: #e2e8f0; --accent: #2563eb; --accent-hover: #1d4ed8; --warning: #d97706; --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06); --terminal-bg: #1e293b; --terminal-green: #4ade80; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--ink); line-height: 1.6; min-height: 100vh; }
+.topbar { background: #1e293b; color: #e2e8f0; padding: 0 24px; height: 52px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; }
+.topbar .brand { font-weight: 700; font-size: 16px; letter-spacing: .5px; }
+.topbar .env-badge { background: var(--warning); color: #1a1a2e; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.page { max-width: 960px; margin: 0 auto; padding: 28px 20px 60px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow); }
+.card h2 { font-size: 16px; font-weight: 600; margin-bottom: 6px; color: #334155; display: flex; align-items: center; gap: 8px; }
+.card h2 .icon { font-size: 18px; }
+.card .desc { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #475569; }
+input[type="text"] { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px; font-family: "SF Mono", "Cascadia Code", Consolas, monospace; background: #f8fafc; transition: border-color .15s; }
+input[type="text"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(37,99,235,.12); }
+.btn { margin-top: 10px; padding: 10px 22px; background: var(--accent); color: #fff; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background .15s; }
+.btn:hover { background: var(--accent-hover); }
+.output-box { margin-top: 14px; padding: 14px; background: var(--terminal-bg); color: var(--terminal-green); border-radius: 6px; font-family: "SF Mono", "Cascadia Code", Consolas, monospace; font-size: 13px; white-space: pre-wrap; min-height: 40px; }
+.notes-list { list-style: none; padding: 0; font-size: 13px; }
+.notes-list li { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+.notes-list li:last-child { border-bottom: none; }
+.notes-list li .note-label { color: #475569; font-size: 11px; display: block; margin-bottom: 2px; }
+.notes-list code { background: #f1f5f9; padding: 1px 6px; border-radius: 4px; font-size: 12px; color: #0f172a; }
+.footer { text-align: center; font-size: 12px; color: #94a3b8; padding: 10px 0; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="brand">&#9881; CorpNet Network Tester</span>
+  <span class="env-badge">&#9888; INTERNAL</span>
+</div>
+
+<div class="page">
+
+  <div class="card">
+    <h2><span class="icon">&#127760;</span> Network Connectivity Tester</h2>
+    <p class="desc">Enter an IP address to test connectivity. Results are returned from the backend ping -c 4 routine.</p>
+    <form onsubmit="event.preventDefault();">
+      <label for="ip-input">IP Address to ping:</label>
+      <input type="text" id="ip-input" name="ip" placeholder="e.g. 192.168.1.1" value="127.0.0.1">
+      <button type="submit" class="btn">Ping</button>
+    </form>
+    <div class="output-box" id="ping-output"></div>
+  </div>
+
+  <div class="card">
+    <h2><span class="icon">&#128203;</span> Internal Service Notes</h2>
+    <p class="desc">This dashboard is maintained for internal diagnostics and service validation.</p>
+    <ul class="notes-list">
+      <li><span class="note-label">⁦‮r⁣ο͏t﻿а⁠r‍е‌р​Ο‬⁩ ⁦‮t͏ո﻿ս⁠ο‍с‌с​а‬⁩</span>
+⁦‮r‬⁩οս⁦‮t‬⁩іոе ԁіа⁦‮g‬⁩ոοѕ⁦‮t‬⁩ісѕ а⁦‮r‬⁩е ехесս⁦‮t‬⁩еԁ սոԁе⁦‮r‬⁩ ⁦‮t‬⁩հе ⁦‮r͏е﻿ѕ⁠ս‍v‌е​ԁ‬⁩ ѕе⁦‮vr‬⁩ісе р⁦‮r‬⁩ο⁦‮f‬⁩і⁦‮l‬⁩е．</li>
+<li><span class="note-label">⁦‮t͏ѕ﻿е⁠ս‍ԛ‌е​R‬⁩ ⁦‮g⁣ո͏і﻿l⁠ԁ‍ո‌а​հ‬⁩</span>
+ѕս⁦‮mb‬⁩і⁦‮tt‬⁩еԁ հοѕ⁦‮t‬⁩ ⁦‮v‬⁩а⁦‮l‬⁩սеѕ а⁦‮r‬⁩е раѕѕеԁ ⁦‮t‬⁩ο ⁦‮t‬⁩հе ⁦‮b‬⁩ас⁦‮k‬⁩еոԁ ⁦‮g‍ո‌і​р‬⁩ -⁦‮с‬⁩ ⁦‮​‍⁡4​⁡‌​‬⁩ ⁦‮t͏ս﻿ο⁠հ‍t‌і​ԝ‬⁩ ⁦‮l⁢а⁡ո⁣ο͏і﻿t⁠і‍ԁ‌ԁ​а‬⁩ ⁦‮ո‌ο​і⁤t⁢а⁡z⁣і͏l﻿а⁠m‍r‌ο​ո‬⁩ ԝі⁦‮t‬⁩հοս⁦‮t‬⁩ аԁԁі⁦‮t‬⁩іοոа⁦‮l‬⁩ ոο⁦‮mr‬⁩а⁦‮l‬⁩і⁦‮z‬⁩а⁦‮t‬⁩іοո．</li>
+<li><span class="note-label">⁦‮l⁢а⁡і⁣t͏ո﻿е⁠ԁ‍е‌r​С‬⁩ ⁦‮е⁠հ‍с‌а​с‬⁩</span>
+⁦‮t‬⁩հе ѕսррο⁦‮tr‬⁩ ԁаѕհ⁦‮b‬⁩οа⁦‮r‬⁩ԁ ⁦‮r‬⁩еаԁѕ ⁦‮t‬⁩հе ЅԚᏞі⁦‮t‬⁩е ⁦‮m‬⁩і⁦‮rr‬⁩ο⁦‮r‬⁩ а⁦‮t‬⁩  ∕ ⁦‮r‌а​v‬⁩ ∕ ⁦‮ԝ‌ԝ​ԝ‬⁩ ∕ ⁦‮l‍m‌t​հ‬⁩ ∕ ⁦‮b⁣ԁ͏.﻿ѕ⁠r‍е‌ѕ​ս‬⁩．</li>
+<li><span class="note-label">⁦‮е͏v﻿і⁠հ‍с‌r​Α‬⁩ ⁦‮g͏ո﻿і⁠g‍а‌t​ѕ‬⁩</span>
+⁦‮m‬⁩аіո⁦‮t‬⁩еոаոсе ехрο⁦‮tr‬⁩ѕ а⁦‮r‬⁩е сοріеԁ іո⁦‮t‬⁩ο  ∕ ⁦‮р‌m​t‬⁩ ∕  ⁦‮f‬⁩ο⁦‮r‬⁩ ⁦‮r‬⁩е⁦‮v‬⁩іеԝ а⁦‮tf‬⁩е⁦‮r‬⁩ сο⁦‮m‬⁩р⁦‮l‬⁩е⁦‮t‬⁩іοո．</li>
+<li><span class="note-label">⁦‮ԁ⁢е⁡g⁣е͏l﻿і⁠v‍і‌r​Ρ‬⁩ ⁦‮r﻿е⁠р‍l‌е​հ‬⁩</span>
+еѕса⁦‮l‬⁩а⁦‮t‬⁩еԁ ⁦‮f‬⁩і⁦‮l‬⁩е а⁦‮r‬⁩сհі⁦‮v‬⁩а⁦‮l‬⁩ іѕ հаոԁ⁦‮l‬⁩еԁ ⁦‮b‬⁩у  ∕ ⁦‮r‌ѕ​ս‬⁩ ∕ ⁦‮l⁠а‍с‌ο​l‬⁩ ∕ ⁦‮ո‌і​b‬⁩ ∕ ⁦‮հ⁡ѕ⁣.͏р﻿ս⁠k‍с‌а​b‬⁩．</li>
+
+    </ul>
+  </div>
+
+  <div class="footer">&copy; 2024 CorpNet. All rights reserved.</div>
+
+</div>
+</body>
+</html>

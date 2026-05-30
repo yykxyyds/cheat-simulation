@@ -1,0 +1,18 @@
+/* Markdown 表格自动换行 —— 禁止横向滚动条 */
+table {
+    table-layout: fixed;
+    width: 100%;
+    word-break: break-all;
+    overflow-wrap: anywhere;
+}
+
+td, th {
+    word-break: break-all;
+    overflow-wrap: anywhere;
+}
+
+td code, th code {
+    word-break: break-all;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}

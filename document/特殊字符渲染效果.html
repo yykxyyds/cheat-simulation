@@ -285,10 +285,6 @@
     简要解释：U+FE00/U+FE01 是变体选择器，用于选择字符显示变体；普通拉丁字母通常没有可见变化，但底层字符序列被改变。<br>
     渲染效果：多数普通拉丁字符后面加变体选择器不会改变肉眼显示。<br><br>
 
-    <h2 class="group-title">不适用于本实验</h2>
-
-    <h2 class="group-title">不适用于本实验</h2>
-
     <h2>aggressive_homoglyph（通用同形字符混淆）</h2>
     普通文本：Apache Velocity 1.7<br>
     含特殊字符：Αpаche Velοcity 1.7<br>
@@ -296,19 +292,85 @@
     简要解释：混合使用希腊字母、西里尔字母和拉丁字母中视觉相近的字符，肉眼可能认为是同一个词，但底层码点不同。<br>
     渲染效果：多数字符看起来接近普通英文，但仔细观察可能有细微差异。<br><br>
 
-    <h2>delete_control（删除符，U+007F）</h2>
-    普通文本：Apache Velocity 1.7<br>
-    含特殊字符：Ap&#x007F;ac&#x007F;he Ve&#x007F;loci&#x007F;ty 1.&#x007F;7<br>
-    源码片段：<code>Ap&amp;#x007F;ac&amp;#x007F;he Ve&amp;#x007F;loci&amp;#x007F;ty 1.&amp;#x007F;7</code><br>
-    简要解释：U+007F 是 DEL 控制字符，不是普通可见字符；不同解析器可能忽略、替换或清洗它。<br>
-    渲染效果：通常不可见或显示为占位符，取决于浏览器和字体。<br><br>
-
-    <h2>soft_hyphen（软连字符，U+00AD）</h2>
+<h2>soft_hyphen（软连字符，U+00AD）</h2>
     普通文本：Apache Velocity 1.7<br>
     含特殊字符：Ap&shy;ac&shy;he Ve&shy;loci&shy;ty 1.&shy;7<br>
     源码片段：<code>Ap&amp;shy;ac&amp;shy;he Ve&amp;shy;loci&amp;shy;ty 1.&amp;shy;7</code><br>
     简要解释：U+00AD 是软连字符，通常不可见，只有在换行断词时可能显示连字符；插入 token 内部会污染源码文本。<br>
     渲染效果：正常行宽下通常不可见，窄屏换行时可能出现连字符。<br><br>
+
+<h2>right_to_left_isolate（RLI，U+2067）</h2>
+    普通文本：Spring Boot 1.5.10<br>
+    含特殊字符：&#x2067;Spring Boot 1.5.10&#x2069;<br>
+    源码片段：<code>&amp;#x2067;Spring Boot 1.5.10&amp;#x2069;</code><br>
+    简要解释：U+2067 是右到左隔离符。截图对比显示 0.67% 像素差异，集中在 Deployment Notes 卡片区域，会触发可见的文本布局偏移。<br>
+    渲染效果：方向隔离符在含特殊字符的区域可能改变文字布局，不适合隐蔽扰动。<br><br>
+
+<h2>nbsp_space（不换行空格，U+00A0）</h2>
+    普通文本：Spring Boot 1.5.10<br>
+    含特殊字符：Spring&nbsp;Boot&nbsp;1.5.10<br>
+    源码片段：<code>Spring&amp;nbsp;Boot&amp;nbsp;1.5.10</code><br>
+    简要解释：U+00A0 是不换行空格，视觉上接近普通空格，但不会在该位置自动换行，且底层码点不同。<br>
+    渲染效果：显示为空格，但换行行为与普通空格不同。<br><br>
+
+<h2>carriage_return（回车符，U+000D）</h2>
+    普通文本：Apache Velocity 1.7<br>
+    含特殊字符：Apache&#x000D;Velocity&#x000D;1.7<br>
+    源码片段：<code>Apache&amp;#x000D;Velocity&amp;#x000D;1.7</code><br>
+    简要解释：U+000D 是回车控制符，在不同上下文里可能表现为换行、空白或被归一化。<br>
+    渲染效果：HTML 正文中通常按空白处理，具体显示依上下文而定。<br><br>
+
+
+    <h2>greek_homoglyph（希腊大写同形字，ΑΒΕΗΙΚΜΝΟΡΤΧΥΖ）</h2>
+    普通文本：Spring Boot 1.5.10<br>
+    含特殊字符：&#x0391;pache Velocity 1.7（仅大写字母替换为希腊同形字）<br>
+    源码片段：<code>&amp;#x0391;pache Velocity 1.7</code><br>
+    简要解释：将拉丁大写字母替换为视觉完全一致的希腊大写同形字（如 A→Α、B→Β、E→Ε），肉眼无法区分但底层码点不同。<br>
+    渲染效果：同形字符视觉一致，不影响用户阅读。<br><br>
+
+    <h2>mixed_homoglyph（混合同形字，希腊大写 + 西里尔小写）</h2>
+    普通文本：Apache Velocity 1.7<br>
+    含特殊字符：&#x0391;p&#x0430;che Vel&#x043E;city 1.7（大写→希腊、小写→西里尔）<br>
+    源码片段：<code>&amp;#x0391;p&amp;#x0430;che Vel&amp;#x043E;city 1.7</code><br>
+    简要解释：大写字母替换为希腊同形字，小写字母替换为西里尔同形字，双重脚本替换累积混淆效果。<br>
+    渲染效果：视觉基本一致，多数字符肉眼难辨。<br><br>
+
+    <h2>invisible_separator（不可见分隔符，U+2063）</h2>
+    普通文本：Apache Velocity 1.7<br>
+    含特殊字符：Ap&#x2063;ac&#x2063;he Ve&#x2063;loci&#x2063;ty 1.&#x2063;7<br>
+    源码片段：<code>Ap&amp;#x2063;ac&amp;#x2063;he Ve&amp;#x2063;loci&amp;#x2063;ty 1.&amp;#x2063;7</code><br>
+    简要解释：U+2063 是不可见分隔符，零宽且不被 normalize_for_match() 剥离（区别于其他零宽字符），对 tokenizer 持久污染。<br>
+    渲染效果：完全不可见，页面上与普通文本一致。<br><br>
+
+    <h2>invisible_sep_homoglyph（不可见分隔符 + 同形字组合）</h2>
+    普通文本：Apache Velocity 1.7<br>
+    含特殊字符：&#x0391;p&#x2063;ache Ve&#x2063;loci&#x2063;ty 1.&#x2063;7（希腊同形 + U+2063）<br>
+    源码片段：<code>&amp;#x0391;p&amp;#x2063;ache Ve&amp;#x2063;loci&amp;#x2063;ty 1.&amp;#x2063;7</code><br>
+    简要解释：希腊大写同形替换 + U+2063 不可见分隔符的双层扰动，叠加同形混淆和零宽污染两种机制。<br>
+    渲染效果：同形字视觉无差异，分隔符零宽不可见。<br><br>
+
+    <h2>backspace_overwrite（退格覆盖，退格符 U+0008）</h2>
+    普通文本：Spring Boot 1.5.10<br>
+    含特殊字符：Spring Boot 1.5.10&#x0008;&#x0008;&#x0008;2.0（版本号退格覆盖）<br>
+    源码片段：<code>Spring Boot 1.5.10&amp;#x0008;&amp;#x0008;&amp;#x0008;2.0</code><br>
+    简要解释：在版本号数字段构造退格覆盖模式，模拟终端中字符被删除并重写的效果（1.5.10→显示2.0）；区别于稀疏退格插入，这是集中式覆盖。<br>
+    渲染效果：HTML 正文中退格符按空白折叠处理，不显示占位符。<br><br>
+
+    <h2>zwsp_cgj_combo（ZWSP + CGJ 组合，U+200B + U+034F）</h2>
+    普通文本：Apache Velocity 1.7<br>
+    含特殊字符：Ap&#x200B;&#x034F;ac&#x200B;&#x034F;he Ve&#x200B;&#x034F;loci&#x200B;&#x034F;ty 1.&#x200B;&#x034F;7<br>
+    源码片段：<code>Ap&amp;#x200B;&amp;#x034F;ac&amp;#x200B;&amp;#x034F;he Ve&amp;#x200B;&amp;#x034F;loci&amp;#x200B;&amp;#x034F;ty 1.&amp;#x200B;&amp;#x034F;7</code><br>
+    简要解释：U+200B（ZWSP）零宽空格 + U+034F（CGJ）组合字素连接符协同插入；ZWSP 破坏 tokenizer，CGJ 影响字素聚类且不被 normalize 剥离。<br>
+    渲染效果：两个字符均为零宽不可见，页面上与普通文本一致。<br><br>
+
+    <h2 class="group-title">不适用于本实验</h2>
+
+        <h2>delete_control（删除符，U+007F）</h2>
+    普通文本：Apache Velocity 1.7<br>
+    含特殊字符：Ap&#x007F;ac&#x007F;he Ve&#x007F;loci&#x007F;ty 1.&#x007F;7<br>
+    源码片段：<code>Ap&amp;#x007F;ac&amp;#x007F;he Ve&amp;#x007F;loci&amp;#x007F;ty 1.&amp;#x007F;7</code><br>
+    简要解释：U+007F 是 DEL 控制字符，不是普通可见字符；不同解析器可能忽略、替换或清洗它。<br>
+    渲染效果：通常不可见或显示为占位符，取决于浏览器和字体。<br><br>
 
     <h2>emoji_segmentation（Emoji 分词偏移）</h2>
     普通文本：Apache Velocity 1.7<br>
@@ -323,13 +385,6 @@
     源码片段：<code>POST&amp;#x2800;/&amp;#x2800;with&amp;#x2800;the&amp;#x2800;user-controlled&amp;#x2800;parameter&amp;#x2800;text</code><br>
     简要解释：U+2800 看起来像空白，但不是普通 ASCII 空格；它会占据字符宽度，可能影响空白归一化和 token 分割。<br>
     渲染效果：显示为空白，占位比零宽字符明显。<br><br>
-
-    <h2>nbsp_space（不换行空格，U+00A0）</h2>
-    普通文本：Spring Boot 1.5.10<br>
-    含特殊字符：Spring&nbsp;Boot&nbsp;1.5.10<br>
-    源码片段：<code>Spring&amp;nbsp;Boot&amp;nbsp;1.5.10</code><br>
-    简要解释：U+00A0 是不换行空格，视觉上接近普通空格，但不会在该位置自动换行，且底层码点不同。<br>
-    渲染效果：显示为空格，但换行行为与普通空格不同。<br><br>
 
     <h2>ideographic_space（全角空格，U+3000）</h2>
     普通文本：Spring Boot 1.5.10<br>
@@ -351,13 +406,6 @@
     源码片段：<code>Αpаche Ⅴelocity 1.7 模板</code><br>
     简要解释：混合拉丁、希腊、西里尔、罗马数字和中文等脚本，可能干扰单一脚本假设和 tokenization。<br>
     渲染效果：可见内容略有变化，部分字符能看出不是普通英文。<br><br>
-
-    <h2>carriage_return（回车符，U+000D）</h2>
-    普通文本：Apache Velocity 1.7<br>
-    含特殊字符：Apache&#x000D;Velocity&#x000D;1.7<br>
-    源码片段：<code>Apache&amp;#x000D;Velocity&amp;#x000D;1.7</code><br>
-    简要解释：U+000D 是回车控制符，在不同上下文里可能表现为换行、空白或被归一化。<br>
-    渲染效果：HTML 正文中通常按空白处理，具体显示依上下文而定。<br><br>
 
     <h2>fullwidth_alternative（全角字符替代）</h2>
     普通文本：Spring Boot 1.5.10<br>
@@ -438,12 +486,6 @@
     简要解释：U+0008 是退格控制符。截图对比显示 17.81% 像素差异，几乎整页渲染都受影响，严重破坏用户体验。<br>
     渲染效果：不同浏览器处理方式不同，Edge 下整页渲染异常，不可用于隐蔽扰动。<br><br>
 
-    <h2>right_to_left_isolate（RLI，U+2067）</h2>
-    普通文本：Spring Boot 1.5.10<br>
-    含特殊字符：&#x2067;Spring Boot 1.5.10&#x2069;<br>
-    源码片段：<code>&amp;#x2067;Spring Boot 1.5.10&amp;#x2069;</code><br>
-    简要解释：U+2067 是右到左隔离符。截图对比显示 0.67% 像素差异，集中在 Deployment Notes 卡片区域，会触发可见的文本布局偏移。<br>
-    渲染效果：方向隔离符在含特殊字符的区域可能改变文字布局，不适合隐蔽扰动。<br><br>
     </div>
 <script>
         document.addEventListener("DOMContentLoaded", function () {
