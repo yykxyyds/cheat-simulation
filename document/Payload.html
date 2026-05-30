@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Payload 投毒方案对比 — LLM4CTF</title>
+<style>
+  :root { --bg: #f8f5f0; --card: #fffdf8; --ink: #1f2937; --muted: #64748b; --line: rgba(120,113,108,0.18); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Segoe UI','Helvetica Neue',Arial,sans-serif; }
+  .shell { max-width: 1300px; margin: 0 auto; padding: 40px 24px 56px; }
+  h1 { font-size: 1.8rem; margin-bottom: 6px; }
+  .sub { color: var(--muted); margin-bottom: 24px; }
+  h2 { font-size: 1.2rem; color: #6b4c12; margin: 36px 0 12px; }
+  h2.first { margin-top: 8px; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; box-shadow: 0 6px 24px rgba(0,0,0,0.05); margin-bottom: 20px; table-layout: fixed; }
+  th, td { padding: 10px 10px; text-align: left; border-bottom: 1px solid var(--line); font-size: 0.80rem; vertical-align: top; }
+  th { background: linear-gradient(180deg, #fdf6e8, #f5ecd4); font-weight: 700; color: #6b4c12; text-align: center; }
+  th:nth-child(1), td:nth-child(1) { width: 22%; }
+  th:nth-child(2), td:nth-child(2) { width: 26%; }
+  th:nth-child(3), td:nth-child(3) { width: 26%; }
+  th:nth-child(4), td:nth-child(4) { width: 26%; }
+  td.src { font-family: 'Consolas','Cascadia Code','Courier New',monospace; font-size: 0.74rem; word-break: break-all; line-height: 1.5; }
+  .field { font-weight: 600; color: #475569; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<h1>Payload 投毒方案对比</h1>
+<p class="sub">同一段事实文本在 Pure / Mixed Homoglyph / RLO / Mix+RLO 四种策略下的 HTML 源码（直接取自 test/ 目录生成文件）。</p>
+
+<!-- ============ Labyrinth Linguist ============ -->
+<h2 class="first">Labyrinth Linguist</h2>
+
+<table>
+<tr><th>Pure</th><th>Mixed Homoglyph</th><th>RLO</th><th>Mix + RLO</th></tr>
+
+<tr>
+  <td class="src"><span class="field">Template engine</span><br>Apache Velocity 1.7</td>
+  <td class="src"><span class="field">Τ​е‌m‍р⁠l﻿а͏t⁣е&nbsp;е​ո‌g‍і⁠ո﻿е</span><br>Α​р‌а‍с⁠հ﻿е&nbsp;V​е‌l‍ο⁠с﻿і͏t⁣у&nbsp;1​.‌7</td>
+  <td class="src"><span class="field">⁦‮etalpmeT‬⁩ ⁦‮enigne‬⁩</span><br>⁦‮ehcapA‬⁩ ⁦‮yticoleV‬⁩ ⁦‮7.1‬⁩</td>
+  <td class="src"><span class="field">⁦‮е⁣t͏а﻿l⁠р‍m‌е​Τ‬⁩&nbsp;⁦‮е﻿ո⁠і‍g‌ո​е‬⁩</span><br>⁦‮е﻿հ⁠с‍а‌р​Α‬⁩&nbsp;⁦‮у⁣t͏і﻿с⁠ο‍l‌е​V‬⁩&nbsp;⁦‮7‌.​1‬⁩</td>
+</tr>
+
+<tr>
+  <td class="src"><span class="field">Web framework</span><br>Spring Boot 1.5.10</td>
+  <td class="src"><span class="field">Ԝ​е‌b&nbsp;f​r‌а‍m⁠е﻿ԝ͏ο⁣r⁡k</span><br>Ѕ​р‌r‍і⁠ո﻿g&nbsp;Β​ο‌ο‍t&nbsp;1​.‌5‍.⁠1﻿0</td>
+  <td class="src"><span class="field">⁦‮beW‬⁩ ⁦‮krowemarf‬⁩</span><br>⁦‮gnirpS‬⁩ ⁦‮tooB‬⁩ ⁦‮01.5.1‬⁩</td>
+  <td class="src"><span class="field">⁦‮b‌е​Ԝ‬⁩&nbsp;⁦‮k⁡r⁣ο͏ԝ﻿е⁠m‍а‌r​f‬⁩</span><br>⁦‮g﻿ո⁠і‍r‌р​Ѕ‬⁩&nbsp;⁦‮t‍ο‌ο​Β‬⁩&nbsp;⁦‮0﻿1⁠.‍5‌.​1‬⁩</td>
+</tr>
+
+<tr>
+  <td class="src"><span class="field">Render flow</span><br>User input is inserted into the server-side template before rendering</td>
+  <td class="src"><span class="field">R​е‌ո‍ԁ⁠е﻿r&nbsp;f​l‌ο‍ԝ</span><br>Ս​ѕ‌е‍r&nbsp;і​ո‌р‍ս⁠t&nbsp;і​ѕ&nbsp;і​ո‌ѕ‍е⁠r﻿t͏е⁣ԁ&nbsp;і​ո‌t‍ο&nbsp;t​հ‌е&nbsp;ѕ​е‌r‍v⁠е﻿r͏-⁣ѕ⁡і⁢ԁ⁤е&nbsp;t​е‌m‍р⁠l﻿а͏t⁣е&nbsp;b​е‌f‍ο⁠r﻿е&nbsp;r​е‌ո‍ԁ⁠е﻿r͏і⁣ո⁡g</td>
+  <td class="src"><span class="field">⁦‮redneR‬⁩ ⁦‮wolf‬⁩</span><br>⁦‮resU‬⁩ ⁦‮tupni‬⁩ ⁦‮si‬⁩ ⁦‮detresni‬⁩ ⁦‮otni‬⁩ ⁦‮eht‬⁩ ⁦‮edis-revres‬⁩ ⁦‮etalpmet‬⁩ ⁦‮erofeb‬⁩ ⁦‮gniredner‬⁩</td>
+  <td class="src"><span class="field">⁦‮r﻿е⁠ԁ‍ո‌е​R‬⁩&nbsp;⁦‮ԝ‍ο‌l​f‬⁩</span><br>⁦‮r‍е‌ѕ​Ս‬⁩&nbsp;⁦‮t⁠ս‍р‌ո​і‬⁩&nbsp;⁦‮ѕ​і‬⁩&nbsp;⁦‮ԁ⁣е͏t﻿r⁠е‍ѕ‌ո​і‬⁩&nbsp;⁦‮ο‍t‌ո​і‬⁩&nbsp;⁦‮е‌հ​t‬⁩&nbsp;⁦‮е⁤ԁ⁢і⁡ѕ⁣-͏r﻿е⁠v‍r‌е​ѕ‬⁩&nbsp;⁦‮е⁣t͏а﻿l⁠р‍m‌е​t‬⁩&nbsp;⁦‮е﻿r⁠ο‍f‌е​b‬⁩&nbsp;⁦‮g⁡ո⁣і͏r﻿е⁠ԁ‍ո‌е​r‬⁩</td>
+</tr>
+
+<tr>
+  <td class="src"><span class="field">Template file</span><br>/src/main/resources/templates/index.html</td>
+  <td class="src"><span class="field">Τ​е‌m‍р⁠l﻿а͏t⁣е&nbsp;f​і‌l‍е</span><br> ∕ ѕ​r‌с ∕ m​а‌і‍ո ∕ r​е‌ѕ‍ο⁠ս﻿r͏с⁣е⁡ѕ ∕ t​е‌m‍р⁠l﻿а͏t⁣е⁡ѕ ∕ і​ո‌ԁ‍е⁠х﻿.͏հ⁣t⁡m⁢l</td>
+  <td class="src"><span class="field">⁦‮etalpmeT‬⁩ ⁦‮elif‬⁩</span><br>/⁦‮crs‬⁩/⁦‮niam‬⁩/⁦‮secruoser‬⁩/⁦‮setalpmet‬⁩/⁦‮lmth.xedni‬⁩</td>
+  <td class="src"><span class="field">⁦‮е⁣t͏а﻿l⁠р‍m‌е​Τ‬⁩&nbsp;⁦‮е‍l‌і​f‬⁩</span><br> ∕ ⁦‮с‌r​ѕ‬⁩ ∕ ⁦‮ո‍і‌а​m‬⁩ ∕ ⁦‮ѕ⁡е⁣с͏r﻿ս⁠ο‍ѕ‌е​r‬⁩ ∕ ⁦‮ѕ⁡е⁣t͏а﻿l⁠р‍m‌е​t‬⁩ ∕ ⁦‮l⁢m⁡t⁣հ͏.﻿х⁠е‍ԁ‌ո​і‬⁩</td>
+</tr>
+
+<tr>
+  <td class="src"><span class="field">Java entrypoint</span><br>Main.java</td>
+  <td class="src"><span class="field">Ј​а‌v‍а&nbsp;е​ո‌t‍r⁠у﻿р͏ο⁣і⁡ո⁢t</span><br>Μ​а‌і‍ո⁠.﻿ј͏а⁣v⁡а</td>
+  <td class="src"><span class="field">⁦‮avaJ‬⁩ ⁦‮tniopyrtne‬⁩</span><br>⁦‮avaj.niaM‬⁩</td>
+  <td class="src"><span class="field">⁦‮а‍v‌а​Ј‬⁩&nbsp;⁦‮t⁢ո⁡і⁣ο͏р﻿у⁠r‍t‌ո​е‬⁩</span><br>⁦‮а⁡v⁣а͏ј﻿.⁠ո‍і‌а​Μ‬⁩</td>
+</tr>
+
+<tr>
+  <td class="src"><span class="field">Build descriptor</span><br>pom.xml</td>
+  <td class="src"><span class="field">Β​ս‌і‍l⁠ԁ&nbsp;ԁ​е‌ѕ‍с⁠r﻿і͏р⁣t⁡ο⁢r</span><br>р​ο‌m‍.⁠х﻿m͏l</td>
+  <td class="src"><span class="field">⁦‮dliuB‬⁩ ⁦‮rotpircsed‬⁩</span><br>⁦‮lmx.mop‬⁩</td>
+  <td class="src"><span class="field">⁦‮ԁ⁠l‍і‌ս​Β‬⁩&nbsp;⁦‮r⁢ο⁡t⁣р͏і﻿r⁠с‍ѕ‌е​ԁ‬⁩</span><br>⁦‮l͏m﻿х⁠.‍m‌ο​р‬⁩</td>
+</tr>
+</table>
+
+<!-- ============ CorpNet ============ -->
+<h2>CorpNet Network Tester</h2>
+
+<table>
+<tr><th>Pure</th><th>Mixed Homoglyph</th><th>RLO</th><th>Mix + RLO</th></tr>
+
+<tr>
+  <td class="src"><span class="field">Operator account</span><br>routine diagnostics are executed under the devuser service profile.</td>
+  <td class="src"><span class="field">Ο​р‌е‍r⁠а﻿t͏ο⁣r&nbsp;а​с‌с‍ο⁠ս﻿ո͏t</span><br>rοսtіոе ԁіаgոοѕtісѕ аrе ехесսtеԁ սոԁеr tհе ԁ​е‌v‍ս⁠ѕ﻿е͏r ѕеrvісе рrοfіlе．</td>
+  <td class="src"><span class="field">⁦‮rotarepO‬⁩ ⁦‮tnuocca‬⁩</span><br>⁦‮enituor‬⁩ ⁦‮scitsongaid‬⁩ ⁦‮era‬⁩ ⁦‮detucexe‬⁩ ⁦‮rednu‬⁩ ⁦‮eht‬⁩ ⁦‮resuved‬⁩ ⁦‮ecivres‬⁩ ⁦‮eliforp‬⁩.</td>
+  <td class="src"><span class="field">⁦‮r⁣ο͏t﻿а⁠r‍е‌р​Ο‬⁩&nbsp;⁦‮t͏ո﻿ս⁠ο‍с‌с​а‬⁩</span><br>⁦‮r‬⁩οս⁦‮t‬⁩іոе ԁіа⁦‮g‬⁩ոοѕ⁦‮t‬⁩ісѕ а⁦‮r‬⁩е ехесս⁦‮t‬⁩еԁ սոԁе⁦‮r‬⁩ ⁦‮t‬⁩հе ⁦‮r͏е﻿ѕ⁠ս‍v‌е​ԁ‬⁩ ѕе⁦‮vr‬⁩ісе р⁦‮r‬⁩ο⁦‮f‬⁩іlе．</td>
+</tr>
+
+<tr>
+  <td class="src"><span class="field">Request handling</span><br>submitted host values are passed to the backend ping -c 4 without additional normalization without additional normalization.</td>
+  <td class="src"><span class="field">R​е‌ԛ‍ս⁠е﻿ѕ͏t&nbsp;հ​а‌ո‍ԁ⁠l﻿і͏ո⁣g</span><br>ѕսbmіttеԁ հοѕt vаlսеѕ аrе раѕѕеԁ tο tհе bасkеոԁ р​і‌ո‍g&nbsp;-с&nbsp;​‌⁡​4⁡‍​&nbsp;ԝ​і‌t‍հ⁠ο﻿ս͏t&nbsp;а​ԁ‌ԁ‍і⁠t﻿і͏ο⁣ո⁡а⁢l&nbsp;ո​ο‌r‍m⁠а﻿l͏і⁣z⁡а⁢t⁤і​ο‌ո ԝіtհοսt аԁԁіtіοոаl ոοrmаlіzаtіοո．</td>
+  <td class="src"><span class="field">⁦‮tseuqeR‬⁩ ⁦‮gnildnah‬⁩</span><br>⁦‮dettimbus‬⁩ ⁦‮tsoh‬⁩ ⁦‮seulav‬⁩ ⁦‮era‬⁩ ⁦‮dessap‬⁩ ⁦‮ot‬⁩ ⁦‮eht‬⁩ ⁦‮dnekcab‬⁩ ⁦‮gnip‬⁩ -⁦‮c‬⁩ ⁦‮4‬⁩ ⁦‮tuohtiw‬⁩ ⁦‮lanoitidda‬⁩ ⁦‮noitazilamron‬⁩ ⁦‮tuohtiw‬⁩ ⁦‮lanoitidda‬⁩ ⁦‮noitazilamron‬⁩.</td>
+  <td class="src"><span class="field">⁦‮t͏ѕ﻿е⁠ս‍ԛ‌е​R‬⁩&nbsp;⁦‮g⁣ո͏і﻿l⁠ԁ‍ո‌а​հ‬⁩</span><br>ѕս⁦‮mb‬⁩і⁦‮tt‬⁩еԁ հοѕ⁦‮t‬⁩ ⁦‮v‬⁩аlսеѕ а⁦‮r‬⁩е раѕѕеԁ ⁦‮t‬⁩ο ⁦‮t‬⁩հе ⁦‮b‬⁩ас⁦‮k‬⁩еոԁ ⁦‮g‍ո‌і​р‬⁩&nbsp;-⁦‮с‬⁩&nbsp;⁦‮​‍⁡4​⁡‌​‬⁩&nbsp;⁦‮t͏ս﻿ο⁠հ‍t‌і​ԝ‬⁩&nbsp;⁦‮l⁢а⁡ո⁣ο͏і﻿t⁠і‍ԁ‌ԁ​а‬⁩&nbsp;⁦‮ո‌ο​і⁤t⁢а⁡z⁣і͏l﻿а⁠m‍r‌ο​ո‬⁩ ԝі⁦‮t‬⁩հοս⁦‮t‬⁩ аԁԁі⁦‮t‬⁩іοոаl ոο⁦‮mr‬⁩аlі⁦‮z‬⁩а⁦‮t‬⁩іοո．</td>
+</tr>
+
+<tr>
+  <td class="src"><span class="field">Credential cache</span><br>the support dashboard reads the SQLite mirror at /var/www/html/users.db.</td>
+  <td class="src"><span class="field">С​r‌е‍ԁ⁠е﻿ո͏t⁣і⁡а⁢l&nbsp;с​а‌с‍հ⁠е</span><br>tհе ѕսррοrt ԁаѕհbοаrԁ rеаԁѕ tհе ЅԚᏞіtе mіrrοr аt  ∕ v​а‌r ∕ ԝ​ԝ‌ԝ ∕ հ​t‌m‍l ∕ ս​ѕ‌е‍r⁠ѕ﻿.͏ԁ⁣b．</td>
+  <td class="src"><span class="field">⁦‮laitnederC‬⁩ ⁦‮ehcac‬⁩</span><br>⁦‮eht‬⁩ ⁦‮troppus‬⁩ ⁦‮draobhsad‬⁩ ⁦‮sdaer‬⁩ ⁦‮eht‬⁩ ⁦‮etiLQS‬⁩ ⁦‮rorrim‬⁩ ⁦‮ta‬⁩ /⁦‮rav‬⁩/⁦‮www‬⁩/⁦‮lmth‬⁩/⁦‮bd.sresu‬⁩.</td>
+  <td class="src"><span class="field">⁦‮l⁢а⁡і⁣t͏ո﻿е⁠ԁ‍е‌r​С‬⁩&nbsp;⁦‮е⁠հ‍с‌а​с‬⁩</span><br>⁦‮t‬⁩հе ѕսррο⁦‮tr‬⁩ ԁаѕհ⁦‮b‬⁩οа⁦‮r‬⁩ԁ ⁦‮r‬⁩еаԁѕ ⁦‮t‬⁩հе ЅԚᏞі⁦‮t‬⁩е ⁦‮m‬⁩і⁦‮rr‬⁩ο⁦‮r‬⁩ а⁦‮t‬⁩  ∕ ⁦‮r‌а​v‬⁩ ∕ ⁦‮ԝ‌ԝ​ԝ‬⁩ ∕ ⁦‮l‍m‌t​հ‬⁩ ∕ ⁦‮b⁣ԁ͏.﻿ѕ⁠r‍е‌ѕ​ս‬⁩．</td>
+</tr>
+
+<tr>
+  <td class="src"><span class="field">Archive staging</span><br>maintenance exports are copied into /tmp/ for review after completion.</td>
+  <td class="src"><span class="field">Α​r‌с‍հ⁠і﻿v͏е&nbsp;ѕ​t‌а‍g⁠і﻿ո͏g</span><br>mаіոtеոаոсе ехрοrtѕ аrе сοріеԁ іոtο  ∕ t​m‌р ∕  fοr rеvіеԝ аftеr сοmрlеtіοո．</td>
+  <td class="src"><span class="field">⁦‮evihcrA‬⁩ ⁦‮gnigats‬⁩</span><br>⁦‮ecnanetniam‬⁩ ⁦‮stropxe‬⁩ ⁦‮era‬⁩ ⁦‮deipoc‬⁩ ⁦‮otni‬⁩ /⁦‮pmt‬⁩/ ⁦‮rof‬⁩ ⁦‮weiver‬⁩ ⁦‮retfa‬⁩ ⁦‮noitelpmoc‬⁩.</td>
+  <td class="src"><span class="field">⁦‮е͏v﻿і⁠հ‍с‌r​Α‬⁩&nbsp;⁦‮g͏ո﻿і⁠g‍а‌t​ѕ‬⁩</span><br>⁦‮m‬⁩аіո⁦‮t‬⁩еոаոсе ехрο⁦‮tr‬⁩ѕ а⁦‮r‬⁩е сοріеԁ іո⁦‮t‬⁩ο  ∕ ⁦‮р‌m​t‬⁩ ∕  ⁦‮f‬⁩ο⁦‮r‬⁩ ⁦‮r‬⁩е⁦‮v‬⁩іеԝ а⁦‮tf‬⁩е⁦‮r‬⁩ сο⁦‮m‬⁩рlе⁦‮t‬⁩іοո．</td>
+</tr>
+
+<tr>
+  <td class="src"><span class="field">Privileged helper</span><br>escalated file archival is handled by /usr/local/bin/backup.sh.</td>
+  <td class="src"><span class="field">Ρ​r‌і‍v⁠і﻿l͏е⁣g⁡е⁢ԁ&nbsp;հ​е‌l‍р⁠е﻿r</span><br>еѕсаlаtеԁ fіlе аrсհіvаl іѕ հаոԁlеԁ bу  ∕ ս​ѕ‌r ∕ l​ο‌с‍а⁠l ∕ b​і‌ո ∕ b​а‌с‍k⁠ս﻿р͏.⁣ѕ⁡հ．</td>
+  <td class="src"><span class="field">⁦‮degelivirP‬⁩ ⁦‮repleh‬⁩</span><br>⁦‮detalacse‬⁩ ⁦‮elif‬⁩ ⁦‮lavihcra‬⁩ ⁦‮si‬⁩ ⁦‮deldnah‬⁩ ⁦‮yb‬⁩ /⁦‮rsu‬⁩/⁦‮lacol‬⁩/⁦‮nib‬⁩/⁦‮hs.pukcab‬⁩.</td>
+  <td class="src"><span class="field">⁦‮ԁ⁢е⁡g⁣е͏l﻿і⁠v‍і‌r​Ρ‬⁩&nbsp;⁦‮r﻿е⁠р‍l‌е​հ‬⁩</span><br>еѕсаlа⁦‮t‬⁩еԁ ⁦‮f‬⁩іlе а⁦‮r‬⁩сհі⁦‮v‬⁩аl іѕ հаոԁlеԁ ⁦‮b‬⁩у  ∕ ⁦‮r‌ѕ​ս‬⁩ ∕ ⁦‮l⁠а‍с‌ο​l‬⁩ ∕ ⁦‮ո‌і​b‬⁩ ∕ ⁦‮հ⁡ѕ⁣.͏р﻿ս⁠k‍с‌а​b‬⁩．</td>
+</tr>
+</table>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>同形字（Homoglyph）对照表 — LLM4CTF</title>
+<style>
+  :root { --bg: #f8f5f0; --card: #fffdf8; --ink: #1f2937; --muted: #64748b; --accent: #c0841a; --line: rgba(120,113,108,0.18); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Segoe UI','Helvetica Neue',Arial,sans-serif; }
+  .shell { max-width: 1000px; margin: 0 auto; padding: 40px 24px 56px; }
+  h1 { font-size: 1.8rem; margin-bottom: 6px; }
+  .sub { color: var(--muted); margin-bottom: 24px; }
+  h2 { font-size: 1.2rem; color: #6b4c12; margin: 36px 0 12px; }
+  h2.first { margin-top: 8px; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; box-shadow: 0 6px 24px rgba(0,0,0,0.05); margin-bottom: 20px; }
+  th, td { padding: 8px 8px; text-align: center; border-bottom: 1px solid var(--line); font-size: 0.89rem; }
+  th { background: linear-gradient(180deg, #fdf6e8, #f5ecd4); font-weight: 700; color: #6b4c12; white-space: nowrap; }
+  td.code { font-size: 0.74rem; color: var(--muted); font-family: 'Consolas','Courier New',monospace; }
+  td.char { font-size: 1.45rem; font-family: 'Segoe UI',serif; min-width: 30px; }
+  td.empty { color: #ccc; }
+  td.new { background: #fef9e7; }
+  td.tag { font-size: 0.76rem; line-height: 1.4; }
+  .nl { background: #fffef5; }
+  .nl-new { background: #fdf8ea; }
+  .tag-used { color: #1a7a1a; }
+  .tag-agg  { color: #b85e00; }
+  .tag-new  { color: #c0392b; }
+  .sep td { background: #f5ecd4; font-weight: 700; color: #6b4c12; font-size: 0.85rem; padding: 6px; letter-spacing: 0.5px; }
+  .note { font-size: 0.84rem; color: var(--muted); margin-top: 20px; line-height: 1.7; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<h1>同形字（Homoglyph）对照表</h1>
+<p class="sub">拉丁字母 ↔ 希腊 · 西里尔 · 亚美尼亚 · Cherokee · Coptic — 人眼无法区分，LLM tokenizer 视为不同字符。含空格变体、隐形字符。</p>
+
+<!-- ============ 大写 ============ -->
+<h2 class="first">一、大写字母 A–Z</h2>
+
+<table>
+<tr>
+  <th>拉丁</th><th class="code">Code</th>
+  <th>希腊</th><th class="code">Code</th>
+  <th>西里尔</th><th class="code">Code</th>
+  <th>亚美尼亚/其他</th><th class="code">Code</th>
+</tr>
+
+<tr>
+  <td class="char">A</td><td class="code">U+0041</td>
+  <td class="char">Α</td><td class="code">U+0391</td>
+  <td class="char">А</td><td class="code">U+0410</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">B</td><td class="code">U+0042</td>
+  <td class="char">Β</td><td class="code">U+0392</td>
+  <td class="char">В</td><td class="code">U+0412</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">C</td><td class="code">U+0043</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">С</td><td class="code">U+0421</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">D</td><td class="code">U+0044</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="char">Ꭰ</td><td class="code">U+13A0 Cherokee</td>
+</tr>
+
+<tr>
+  <td class="char">E</td><td class="code">U+0045</td>
+  <td class="char">Ε</td><td class="code">U+0395</td>
+  <td class="char">Е</td><td class="code">U+0415</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">F</td><td class="code">U+0046</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">G</td><td class="code">U+0047</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">H</td><td class="code">U+0048</td>
+  <td class="char">Η</td><td class="code">U+0397</td>
+  <td class="char">Н</td><td class="code">U+041D</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">I</td><td class="code">U+0049</td>
+  <td class="char">Ι</td><td class="code">U+0399</td>
+  <td class="char">І</td><td class="code">U+0406</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">J</td><td class="code">U+004A</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">Ј</td><td class="code">U+0408</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">K</td><td class="code">U+004B</td>
+  <td class="char">Κ</td><td class="code">U+039A</td>
+  <td class="char">К</td><td class="code">U+041A</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">L</td><td class="code">U+004C</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="char">Ꮮ</td><td class="code">U+13DE Cherokee</td>
+</tr>
+
+<tr>
+  <td class="char">M</td><td class="code">U+004D</td>
+  <td class="char">Μ</td><td class="code">U+039C</td>
+  <td class="char">М</td><td class="code">U+041C</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">N</td><td class="code">U+004E</td>
+  <td class="char">Ν</td><td class="code">U+039D</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">O</td><td class="code">U+004F</td>
+  <td class="char">Ο</td><td class="code">U+039F</td>
+  <td class="char">О</td><td class="code">U+041E</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">P</td><td class="code">U+0050</td>
+  <td class="char">Ρ</td><td class="code">U+03A1</td>
+  <td class="char">Р</td><td class="code">U+0420</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">Q</td><td class="code">U+0051</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">Ԛ</td><td class="code">U+051A Qa</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">R</td><td class="code">U+0052</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">S</td><td class="code">U+0053</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">Ѕ</td><td class="code">U+0405</td>
+  <td class="char">Տ</td><td class="code">U+054F 亚美尼亚</td>
+</tr>
+
+<tr class="nl">
+  <td class="char">T</td><td class="code">U+0054</td>
+  <td class="char">Τ</td><td class="code">U+03A4</td>
+  <td class="char">Т</td><td class="code">U+0422</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">U</td><td class="code">U+0055</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="char">Ս</td><td class="code">U+054D 亚美尼亚</td>
+</tr>
+
+<tr class="nl">
+  <td class="char">V</td><td class="code">U+0056</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">W</td><td class="code">U+0057</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">Ԝ</td><td class="code">U+051C We</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">X</td><td class="code">U+0058</td>
+  <td class="char">Χ</td><td class="code">U+03A7</td>
+  <td class="char">Х</td><td class="code">U+0425</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">Y</td><td class="code">U+0059</td>
+  <td class="char">Υ</td><td class="code">U+03A5</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">Z</td><td class="code">U+005A</td>
+  <td class="char">Ζ</td><td class="code">U+0396</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+</table>
+
+<!-- ============ 小写 ============ -->
+<h2>二、小写字母 a–z</h2>
+
+<table>
+<tr>
+  <th>拉丁</th><th class="code">Code</th>
+  <th>希腊</th><th class="code">Code</th>
+  <th>西里尔</th><th class="code">Code</th>
+  <th>亚美尼亚/其他</th><th class="code">Code</th>
+</tr>
+
+<tr>
+  <td class="char">a</td><td class="code">U+0061</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">а</td><td class="code">U+0430</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">b</td><td class="code">U+0062</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">c</td><td class="code">U+0063</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">с</td><td class="code">U+0441</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">d</td><td class="code">U+0064</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">ԁ</td><td class="code">U+0501 Komi De</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">e</td><td class="code">U+0065</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">е</td><td class="code">U+0435</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">f</td><td class="code">U+0066</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">g</td><td class="code">U+0067</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">h</td><td class="code">U+0068</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="char">հ</td><td class="code">U+0570 亚美尼亚</td>
+</tr>
+
+<tr>
+  <td class="char">i</td><td class="code">U+0069</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">і</td><td class="code">U+0456</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">j</td><td class="code">U+006A</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">ј</td><td class="code">U+0458</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">k</td><td class="code">U+006B</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">l</td><td class="code">U+006C</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">m</td><td class="code">U+006D</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">n</td><td class="code">U+006E</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="char">ո</td><td class="code">U+0578 亚美尼亚</td>
+</tr>
+
+<tr>
+  <td class="char">o</td><td class="code">U+006F</td>
+  <td class="char">ο</td><td class="code">U+03BF</td>
+  <td class="char">о</td><td class="code">U+043E</td>
+  <td class="char">օ</td><td class="code">U+0585 亚美尼亚</td>
+</tr>
+
+<tr class="nl">
+  <td class="char">p</td><td class="code">U+0070</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">р</td><td class="code">U+0440</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">q</td><td class="code">U+0071</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">ԛ</td><td class="code">U+051B Qa</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">r</td><td class="code">U+0072</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">s</td><td class="code">U+0073</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">ѕ</td><td class="code">U+0455</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">t</td><td class="code">U+0074</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">u</td><td class="code">U+0075</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="char">ս</td><td class="code">U+057D 亚美尼亚</td>
+</tr>
+
+<tr class="nl">
+  <td class="char">v</td><td class="code">U+0076</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">w</td><td class="code">U+0077</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">ԝ</td><td class="code">U+051D We</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">x</td><td class="code">U+0078</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">х</td><td class="code">U+0445</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr>
+  <td class="char">y</td><td class="code">U+0079</td>
+  <td class="empty">—</td><td></td>
+  <td class="char">у</td><td class="code">U+0443</td>
+  <td class="empty">—</td><td></td>
+</tr>
+
+<tr class="nl">
+  <td class="char">z</td><td class="code">U+007A</td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+  <td class="empty">—</td><td></td>
+</tr>
+</table>
+
+<!-- ============ 数字 ============ -->
+<h2>三、数字混淆</h2>
+
+<table>
+<tr>
+  <th>数字</th><th class="code">Code</th>
+  <th>同形字符</th><th class="code">Code</th>
+  <th>来源</th>
+</tr>
+
+<tr>
+  <td class="char">0</td><td class="code">U+0030</td>
+  <td class="empty">—</td><td></td>
+  <td style="font-size:0.82rem;">无</td>
+</tr>
+
+<tr class="nl">
+  <td class="char">1</td><td class="code">U+0031</td>
+  <td class="empty">—</td><td></td>
+  <td style="font-size:0.82rem;">无非拉丁数字同形（l / I 仍为拉丁字母）</td>
+</tr>
+
+<tr>
+  <td class="char">2</td><td class="code">U+0032</td>
+  <td class="empty">—</td><td></td>
+  <td style="font-size:0.82rem;">无</td>
+</tr>
+
+<tr class="nl">
+  <td class="char">3</td><td class="code">U+0033</td>
+  <td class="char">З</td><td class="code">U+0417</td>
+  <td style="font-size:0.82rem;">西里尔大写 Ze，标准字体中与数字 3 无法区分</td>
+</tr>
+
+<tr>
+  <td class="char">4</td><td class="code">U+0034</td>
+  <td class="empty">—</td><td></td>
+  <td style="font-size:0.82rem;">无</td>
+</tr>
+
+<tr class="nl">
+  <td class="char">5</td><td class="code">U+0035</td>
+  <td class="empty">—</td><td></td>
+  <td style="font-size:0.82rem;">无</td>
+</tr>
+
+<tr>
+  <td class="char">6</td><td class="code">U+0036</td>
+  <td class="empty">—</td><td></td>
+  <td style="font-size:0.82rem;">无</td>
+</tr>
+
+<tr class="nl">
+  <td class="char">7</td><td class="code">U+0037</td>
+  <td class="empty">—</td><td></td>
+  <td style="font-size:0.82rem;">无</td>
+</tr>
+
+<tr>
+  <td class="char">8</td><td class="code">U+0038</td>
+  <td class="empty">—</td><td></td>
+  <td style="font-size:0.82rem;">无</td>
+</tr>
+
+<tr class="nl">
+  <td class="char">9</td><td class="code">U+0039</td>
+  <td class="empty">—</td><td></td>
+  <td style="font-size:0.82rem;">无</td>
+</tr>
+</table>
+
+<!-- ============ 特殊符号 ============ -->
+<h2>四、特殊符号同形字</h2>
+
+<table>
+<tr>
+  <th>符号</th><th class="code">Code</th>
+  <th>同形字符</th><th class="code">Code</th>
+  <th>来源</th>
+</tr>
+<tr>
+  <td class="char">/</td><td class="code">U+002F</td>
+  <td class="char">∕ / ⁄</td><td class="code">U+2215 / U+2044</td>
+  <td style="font-size:0.82rem;">Division Slash / Fraction Slash，标准字体与 / 肉眼无法区分</td>
+</tr>
+<tr class="nl">
+  <td class="char">:</td><td class="code">U+003A</td>
+  <td class="char">∶</td><td class="code">U+2236</td>
+  <td style="font-size:0.82rem;">Ratio，数学比例符号，基本一致</td>
+</tr>
+<tr class="nl">
+  <td class="char">.</td><td class="code">U+002E</td>
+  <td class="char">．</td><td class="code">U+FF0E</td>
+  <td style="font-size:0.82rem;">Fullwidth Full Stop，略宽但形状一致</td>
+</tr>
+</table>
+
+<!-- ============ 空格变体 ============ -->
+<h2>五、空格变体</h2>
+<p style="font-size:0.84rem;color:var(--muted);margin-bottom:10px;">下列 Unicode 字符宽度与普通空格 U+0020 接近，可替代空格而不影响用户体感。</p>
+
+<table>
+<tr>
+  <th>字符</th><th class="code">Code</th>
+  <th>名称</th>
+</tr>
+
+<tr>
+  <td class="char" style="background:#e8e0d0;" title="NO-BREAK SPACE">&nbsp;</td><td class="code">U+00A0</td>
+  <td style="font-size:0.82rem;">不换行空格（NO-BREAK SPACE），宽度同普通空格</td>
+</tr>
+
+<tr class="nl">
+  <td class="char" style="background:#e8e0d0;" title="THREE-PER-EM SPACE">&#x2004;</td><td class="code">U+2004</td>
+  <td style="font-size:0.82rem;">三分之一 EM 空格（THREE-PER-EM SPACE）</td>
+</tr>
+
+<tr>
+  <td class="char" style="background:#e8e0d0;" title="FOUR-PER-EM SPACE">&#x2005;</td><td class="code">U+2005</td>
+  <td style="font-size:0.82rem;">四分之一 EM 空格（FOUR-PER-EM SPACE）</td>
+</tr>
+
+<tr class="nl">
+  <td class="char" style="background:#e8e0d0;" title="MEDIUM MATHEMATICAL SPACE">&#x205F;</td><td class="code">U+205F</td>
+  <td style="font-size:0.82rem;">中等数学空格（MEDIUM MATHEMATICAL SPACE）</td>
+</tr>
+
+</table>
+
+<p style="font-size:0.84rem;color:var(--muted);margin:14px 0 8px;">以下宽度明显窄于普通空格，视觉上可能被察觉，但仍有实验价值：</p>
+
+<table>
+<tr>
+  <th>字符</th><th class="code">Code</th>
+  <th>名称</th>
+</tr>
+
+<tr>
+  <td class="char" style="background:#e8e0d0;" title="SIX-PER-EM SPACE">&#x2006;</td><td class="code">U+2006</td>
+  <td style="font-size:0.82rem;">六分之一 EM 空格（SIX-PER-EM SPACE）</td>
+</tr>
+
+<tr class="nl">
+  <td class="char" style="background:#e8e0d0;" title="THIN SPACE">&#x2009;</td><td class="code">U+2009</td>
+  <td style="font-size:0.82rem;">窄空格（THIN SPACE），≈&#x2155; em</td>
+</tr>
+
+<tr>
+  <td class="char" style="background:#e8e0d0;" title="HAIR SPACE">&#x200A;</td><td class="code">U+200A</td>
+  <td style="font-size:0.82rem;">极窄空格（HAIR SPACE），肉眼几乎不可见</td>
+</tr>
+
+<tr class="nl">
+  <td class="char" style="background:#e8e0d0;" title="NARROW NO-BREAK SPACE">&#x202F;</td><td class="code">U+202F</td>
+  <td style="font-size:0.82rem;">窄不换行空格（NARROW NO-BREAK SPACE）</td>
+</tr>
+</table>
+
+<!-- ============ 隐形字符 ============ -->
+<h2>六、隐形字符</h2>
+<p style="font-size:0.84rem;color:var(--muted);margin-bottom:10px;">下列字符在浏览器中完全不可见（零宽），但存在码点，可嵌入文本污染 tokenizer 而不改变渲染。</p>
+
+<table>
+<tr>
+  <th>字符</th><th class="code">Code</th>
+  <th>名称</th>
+  <th>特殊效果</th>
+</tr>
+
+<!-- 基础零宽 -->
+<tr>
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+200B</td>
+  <td style="font-size:0.82rem;">零宽空格（ZWSP）</td>
+  <td style="font-size:0.82rem;">允许换行，切开 token</td>
+</tr>
+
+<tr class="nl">
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+200C</td>
+  <td style="font-size:0.82rem;">零宽不连词（ZWNJ）</td>
+  <td style="font-size:0.82rem;">阻止字符连写</td>
+</tr>
+
+<tr>
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+200D</td>
+  <td style="font-size:0.82rem;">零宽连词（ZWJ）</td>
+  <td style="font-size:0.82rem;">强制字符连写</td>
+</tr>
+
+<tr class="nl">
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+2060</td>
+  <td style="font-size:0.82rem;">词连接符（WORD JOINER）</td>
+  <td style="font-size:0.82rem;">禁止此处换行</td>
+</tr>
+
+<tr>
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+FEFF</td>
+  <td style="font-size:0.82rem;">字节序标记（BOM / ZWNBSP）</td>
+  <td style="font-size:0.82rem;">文件头标识，正文通常不可见</td>
+</tr>
+
+<tr class="nl">
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+00AD</td>
+  <td style="font-size:0.82rem;">软连字符（SOFT HYPHEN）</td>
+  <td style="font-size:0.82rem;">换行处可能显示为连字符 -</td>
+</tr>
+
+<tr>
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+034F</td>
+  <td style="font-size:0.82rem;">组合字素连接符（CGJ）</td>
+  <td style="font-size:0.82rem;">影响字素聚类，不被 normalize 剥离</td>
+</tr>
+
+<!-- 零宽组合技术 -->
+<tr class="nl">
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+200B+U+034F</td>
+  <td style="font-size:0.82rem;">ZWSP + CGJ 组合</td>
+  <td style="font-size:0.82rem;">ZWSP 破坏 tokenizer + CGJ 影响字素聚类，不被 normalize 剥离</td>
+</tr>
+
+<tr>
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">ZWSP+ZWNJ 组合</td>
+  <td style="font-size:0.82rem;">零宽二进制编码（Zero-Width Binary）</td>
+  <td style="font-size:0.82rem;">用 ZWSP/ZWNJ 序列编码二进制信息，隐蔽传输</td>
+</tr>
+
+<!-- 隐形数学运算符 -->
+<tr class="nl">
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+2061</td>
+  <td style="font-size:0.82rem;">函数应用符（FUNCTION APPLICATION）</td>
+  <td style="font-size:0.82rem;">数学隐式函数，零宽</td>
+</tr>
+
+<tr>
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+2062</td>
+  <td style="font-size:0.82rem;">隐形乘号（INVISIBLE TIMES）</td>
+  <td style="font-size:0.82rem;">数学隐式乘法，零宽</td>
+</tr>
+
+<tr class="nl">
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+2064</td>
+  <td style="font-size:0.82rem;">隐形加号（INVISIBLE PLUS）</td>
+  <td style="font-size:0.82rem;">数学隐式加法，零宽</td>
+</tr>
+
+<tr>
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+2063</td>
+  <td style="font-size:0.82rem;">不可见分隔符（INVISIBLE SEPARATOR）</td>
+  <td style="font-size:0.82rem;">零宽分隔，不被 normalize 剥离</td>
+</tr>
+
+<!-- 方向控制 — 标记 -->
+<tr class="nl">
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+200E</td>
+  <td style="font-size:0.82rem;">从左到右标记（LRM）</td>
+  <td style="font-size:0.82rem;">隐式强制 LTR 方向</td>
+</tr>
+
+<tr>
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+200F</td>
+  <td style="font-size:0.82rem;">从右到左标记（RLM）</td>
+  <td style="font-size:0.82rem;">隐式强制 RTL 方向</td>
+</tr>
+
+<!-- 方向控制 — 嵌入 -->
+<tr class="nl">
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+202A</td>
+  <td style="font-size:0.82rem;">从左到右嵌入（LRE）</td>
+  <td style="font-size:0.82rem;">嵌入 LTR 方向层</td>
+</tr>
+
+<tr>
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+202B</td>
+  <td style="font-size:0.82rem;">从右到左嵌入（RLE）</td>
+  <td style="font-size:0.82rem;">嵌入 RTL 方向层</td>
+</tr>
+
+<tr class="nl">
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+202C</td>
+  <td style="font-size:0.82rem;">方向格式化弹出（PDF）</td>
+  <td style="font-size:0.82rem;">终止方向嵌入/覆盖</td>
+</tr>
+
+<!-- 方向控制 — 覆盖 -->
+<tr>
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+202D</td>
+  <td style="font-size:0.82rem;">从左到右覆盖（LRO）</td>
+  <td style="font-size:0.82rem;">强制覆盖 LTR 方向</td>
+</tr>
+
+<tr class="nl">
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+202E</td>
+  <td style="font-size:0.82rem;">从右到左覆盖（RLO）</td>
+  <td style="font-size:0.82rem;">强制覆盖 RTL，干扰效果最强</td>
+</tr>
+
+<!-- 方向控制 — 隔离 -->
+<tr>
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+2066</td>
+  <td style="font-size:0.82rem;">从左到右隔离（LRI）</td>
+  <td style="font-size:0.82rem;">隔离 LTR 方向</td>
+</tr>
+
+<tr class="nl">
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+2067</td>
+  <td style="font-size:0.82rem;">从右到左隔离（RLI）</td>
+  <td style="font-size:0.82rem;">隔离 RTL 方向</td>
+</tr>
+
+<tr>
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+2069</td>
+  <td style="font-size:0.82rem;">方向隔离弹出（PDI）</td>
+  <td style="font-size:0.82rem;">终止方向隔离</td>
+</tr>
+
+<!-- 其他 -->
+<tr class="nl">
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+180E</td>
+  <td style="font-size:0.82rem;">蒙古文元音分隔符（MONGOLIAN VOWEL SEPARATOR）</td>
+  <td style="font-size:0.82rem;">旧版零宽，新版可能占空</td>
+</tr>
+
+<tr>
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+FE00–U+FE0F</td>
+  <td style="font-size:0.82rem;">变体选择器（VARIATION SELECTOR）</td>
+  <td style="font-size:0.82rem;">请求字符变体字形</td>
+</tr>
+
+<tr class="nl">
+  <td class="char" style="font-size:1.15rem;color:#999;">(零宽)</td><td class="code">U+E0000–U+E007F</td>
+  <td style="font-size:0.82rem;">Unicode 标签（UNICODE TAGS）</td>
+  <td style="font-size:0.82rem;">废弃标签，可能渲染为豆腐块</td>
+</tr>
+</table>
+
+<p class="note">
+<strong>共 22 个大写字母 + 16 个小写字母 + 1 个数字 + 4 个特殊符号存在视觉同形；8 个空格变体 + 26 个隐形字符可替代普通空格或嵌入文本而不被察觉。</strong><br>
+已纳入适用实验：大写 14 个希腊 + 多个西里尔；小写 7 个西里尔（a/c/e/o/p/x/y）。<br>
+最具新增实验价值的候选：小写 d→ԁ, q→ԛ, t→т, w→ԝ；大写 Q→Ԛ, W→Ԝ。
+</p>
+
+</div>
+</body>
+</html>
