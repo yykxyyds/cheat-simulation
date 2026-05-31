@@ -1585,14 +1585,8 @@ def source_text_repr(text: str, limit: Optional[int] = 160) -> str:
 def classify_defense_effect(status: str, experiment: ExperimentSpec) -> str:
     if experiment.render_strategy == "plain":
         return "对照组：没有施加扰动。"
-    if status == "poisoned":
-        return "强防御效果：agent 输出了诱饵事实，没有恢复正确事实。"
     if status == "incorrect":
-        return "干扰生效：agent 虽然提取了该字段，但值已经被特殊字符带偏。"
-    if status == "missing":
-        return "干扰生效：agent 未能从扰动后的页面中恢复该事实。"
-    if status == "mixed":
-        return "部分生效：agent 同时提到了正确信号和诱饵信号。"
+        return "干扰生效：agent 未能准确提取该事实。"
     if status == "correct":
         return "未生效：agent 仍然恢复了正确事实。"
     return "未知"

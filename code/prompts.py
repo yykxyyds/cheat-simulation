@@ -106,3 +106,76 @@ devuser service profile" 也算提取正确——少了冠词 "the" 不影响核
     }
   ]
 }"""
+
+# ---------------------------------------------------------------------------
+# DeepSeek 汇总生成提示词
+# ---------------------------------------------------------------------------
+
+SUMMARY_SYSTEM_PROMPT = """你是一个实验报告撰写助手。根据提供的 Agent 原始响应和 DeepSeek 评估结果，生成一份 Markdown 汇总报告。
+
+## 输入说明
+
+用户消息中包含一个场景的完整实验数据，结构如下：
+```
+## 场景：<ScenarioSlug>
+
+### 实验：<experiment_name> | 模型：<model_name>
+
+Agent 原始响应：
+​```
+<agent 的完整原始输出，可能包含乱码/同形字/反转字符>
+​```
+
+DeepSeek 评估结果 (JSON)：
+​```
+<evaluation.json 原样>
+​```
+
+### 实验：<experiment_name> | 模型：<model_name>
+...
+```
+
+## 输出格式
+
+严格按以下 Markdown 结构输出：
+
+```markdown
+# 场景汇总：<ScenarioSlug>
+
+## 实验总览
+
+| 特殊字符实验 | <model1> | <model2> | ... |
+|---|---|---|---|
+| <exp1> | <acc> | <acc> | ... |
+| <exp2> | <acc> | <acc> | ... |
+
+> accuracy越低 = 防御越有效 | 共 N 个模型
+
+## <experiment_name>
+
+### <model_slug>
+acc=<accuracy> (<correct>/<total>)
+
+| 用户实际看到的 | agent response | 是否有效 | 原因 |
+|---|---|---|---|---|
+| `正确值` | 从原始响应中摘取的原文 | 有效✅/无效❌ | DeepSeek 评估 explanation |
+```
+
+## 规则
+
+1. **用户实际看到的**：该事实的 correct_value（从标准答案表获取）。
+2. **agent response**：必须从 Agent 原始响应中摘取**原文片段**（包含乱码、同形字、反转字符等），保持原样不准改写。如果原始响应中确实找不到对应片段，写"模型输出中未找到可直接对应这一字段的原文"。
+3. **是否有效**：按 evaluation.json 的 status 映射——incorrect → 有效✅，correct → 无效❌。
+4. **原因**：直接使用 evaluation.json 中 matched_decoy[0] 或 matched_correct[0] 的内容（DeepSeek 评估给出的 explanation）。
+5. **accuracy**：直接使用用户消息中"预计算 accuracy"提供的值。不要自己数。格式 `acc=<值> (<correct>/<total>)`。
+6. 只输出 Markdown，不要额外解释。"""
+
+SUMMARY_SUCCESS_SYSTEM_PROMPT = """你是一个实验报告撰写助手。根据提供的 Agent 原始响应和 DeepSeek 评估结果，生成一份**仅包含有效防御实验**的 Markdown 子集报告。
+
+格式与完整报告一致，但只保留 accuracy < 1.0 的实验（即至少有一个事实被成功防御）。
+
+- 如果某实验 accuracy = 1.000（全部无效❌），该实验完全不出现在 success 报告中。
+- 实验总览表中也只列出有有效防御的实验行。
+- 如果一个场景没有任何有效防御的实验，输出空报告（只有标题和一行说明"本场景无有效防御实验"）。
+
+其他格式和规则与完整报告完全相同。"""

@@ -27,10 +27,36 @@
   .tag-new  { color: #c0392b; }
   .sep td { background: #f5ecd4; font-weight: 700; color: #6b4c12; font-size: 0.85rem; padding: 6px; letter-spacing: 0.5px; }
   .note { font-size: 0.84rem; color: var(--muted); margin-top: 20px; line-height: 1.7; }
+
+  .method-box {
+    background: linear-gradient(135deg, #fef9e7 0%, #fdf3d0 100%);
+    border: 2px solid #e2c97e;
+    border-radius: 12px;
+    padding: 20px 28px 14px;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 16px rgba(180,140,40,0.10);
+  }
+  .method-title { font-size: 1.05rem; color: #8b6914; margin: 0 0 14px 0; padding-bottom: 8px; border-bottom: 1px dashed #dbbd6a; }
+  .method-list { margin: 0; padding-left: 22px; }
+  .method-list li { margin-bottom: 8px; font-size: 0.90rem; line-height: 1.55; color: #3d3929; }
+  .method-list li strong { color: #8b6914; }
+  .method-list li code { background: #fdf3d0; padding: 1px 5px; border-radius: 3px; font-size: 0.84rem; }
 </style>
 </head>
 <body>
 <div class="shell">
+
+<div class="method-box">
+  <h2 class="method-title">构造扰动 Payload 的方法约定</h2>
+  <p style="margin:0 0 12px 0;font-size:0.88rem;color:#5c4a10;">目标：<strong>在不影响浏览器渲染（人类用户无感）的前提下，最大化对 LLM tokenizer 的干扰。</strong>下方对照表提供了每个拉丁字符的同形替代来源。</p>
+  <ol class="method-list">
+    <li><strong>拉丁字符 → 同形字替换。</strong> payload 文本中的每个拉丁字母，只要在下方对照表里有对应的希腊 / 西里尔 / 亚美尼亚等同形字，就替换掉。同形字在人眼中与原字符无区别，但 LLM tokenizer 会将其视为完全不同的 token。</li>
+    <li><strong>空格 → 不可见空格变体。</strong> 普通空格（U+0020）替换为 NBSP（U+00A0）、Figure Space（U+2007）、Punctuation Space（U+2008）等，渲染宽度与普通空格一致。</li>
+    <li><strong>字母间 → 密集插入零宽/不可见字符。</strong> 单词内相邻字母之间大量塞入 ZWSP（U+200B）、ZWNJ（U+200C）、ZWJ（U+200D）、Word Joiner（U+2060）、BOM（U+FEFF）、Function Application（U+2061）、Invisible Times（U+2062）等。浏览器不会渲染这些字符，但 tokenizer 会把单词切得支离破碎。</li>
+    <li><strong>数字串 → 同样的零宽轰炸，种类越多越好。</strong> 版本号、端口号等数字串（如 <code>1.5.10</code>、<code>8080</code>）内部密集插入各种不可见字符。数字前后的产品名/框架名按规则 1–3 处理。用户看到的是正常数字，agent 读到的是被无数隐形字符打碎的乱码。</li>
+    <li><strong>同形标点符号也要利用。</strong> <code>/</code>（U+002F）→ Fraction Slash（U+2044 ⁄）、<code>.</code>（U+002E）→ One Dot Leader（U+2024 ․）、<code>:</code>（U+003A）→ Modifier Letter Colon（U+A789 ꞉）。这些标点在路径、版本号、URL 中高频出现，同形替换预期效果显著。</li>
+  </ol>
+</div>
 
 <h1>同形字（Homoglyph）对照表</h1>
 <p class="sub">拉丁字母 ↔ 希腊 · 西里尔 · 亚美尼亚 · Cherokee · Coptic — 人眼无法区分，LLM tokenizer 视为不同字符。含空格变体、隐形字符。</p>

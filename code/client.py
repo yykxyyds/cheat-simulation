@@ -69,7 +69,7 @@ class NimChatClient:
                 data = response.json()
                 try:
                     message = data["choices"][0]["message"]
-                    content = message.get("content") or message.get("reasoning_content")
+                    content = message.get("content") or message.get("reasoning_content") or ""
                     if isinstance(content, str) and content.strip():
                         return content.strip()
                     raise KeyError("message.content")

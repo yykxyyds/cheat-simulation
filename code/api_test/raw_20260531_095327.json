@@ -1,0 +1,839 @@
+[
+  {
+    "name": "gpt-5.4-nano (讯型AI)",
+    "tag": "讯型AI",
+    "model": "gpt-5.4-nano",
+    "skipped": false,
+    "avg_ms": 1715,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 1482,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 2100,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 1563,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "kimi-k2.6 (讯型AI)",
+    "tag": "讯型AI",
+    "model": "kimi-k2.6",
+    "skipped": false,
+    "avg_ms": 2135,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 2167,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 2365,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 1874,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "deepseek-chat (讯型AI)",
+    "tag": "讯型AI",
+    "model": "deepseek-chat",
+    "skipped": false,
+    "avg_ms": 2126,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 1806,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 2730,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 1843,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "claude-sonnet-4-6 (讯型AI)",
+    "tag": "讯型AI",
+    "model": "claude-sonnet-4-6",
+    "skipped": false,
+    "avg_ms": 2304,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 2068,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 2581,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 2264,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "claude-opus-4-7 (讯型AI)",
+    "tag": "讯型AI",
+    "model": "claude-opus-4-7",
+    "skipped": false,
+    "avg_ms": 2330,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 2191,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 2343,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 2457,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "claude-haiku-4-5 (讯型AI)",
+    "tag": "讯型AI",
+    "model": "claude-haiku-4-5-20251001",
+    "skipped": false,
+    "avg_ms": 2452,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 2193,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 2657,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 2507,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "gemini-3.5-flash (讯型AI)",
+    "tag": "讯型AI",
+    "model": "gemini-3.5-flash",
+    "skipped": false,
+    "avg_ms": 4177,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 2972,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 3316,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 6244,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "deepseek-v4-flash (讯型AI)",
+    "tag": "讯型AI",
+    "model": "deepseek-v4-flash",
+    "skipped": false,
+    "avg_ms": 3845,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 3660,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 3131,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 4743,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "gpt-5.5 (讯型AI)",
+    "tag": "讯型AI",
+    "model": "gpt-5.5",
+    "skipped": false,
+    "avg_ms": 4261,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 4511,
+        "content_len": 476,
+        "preview": "[think]**Identifying important version details**\\n\\nI need to "
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 4548,
+        "content_len": 410,
+        "preview": "[think]**Determining version importance**\\n\\nI’m thinking we n"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 3723,
+        "content_len": 377,
+        "preview": "[think]**Identifying key version number**\\n\\nI need to determi"
+      }
+    ]
+  },
+  {
+    "name": "MiniMax-M2.7 (讯型AI)",
+    "tag": "讯型AI",
+    "model": "MiniMax-M2.7",
+    "skipped": false,
+    "avg_ms": 5484,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 5006,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 7533,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 3913,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "glm-5 (讯型AI)",
+    "tag": "讯型AI",
+    "model": "glm-5",
+    "skipped": false,
+    "avg_ms": 7969,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 7382,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 8139,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 8385,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "gpt-5.2 (v36)",
+    "tag": "v36",
+    "model": "gpt-5.2",
+    "skipped": false,
+    "avg_ms": 2400,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 2245,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 2552,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 2403,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "gpt-5.4 (v36)",
+    "tag": "v36",
+    "model": "gpt-5.4",
+    "skipped": false,
+    "avg_ms": 2772,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 2941,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 2616,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 2760,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "gpt-5.1 (v36)",
+    "tag": "v36",
+    "model": "gpt-5.1",
+    "skipped": false,
+    "avg_ms": 3023,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 3254,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 2900,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 2915,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "gpt-4o-mini (v36)",
+    "tag": "v36",
+    "model": "gpt-4o-mini",
+    "skipped": false,
+    "avg_ms": 2197,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 1998,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 2777,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 1816,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "gpt-4.1-nano (v36)",
+    "tag": "v36",
+    "model": "gpt-4.1-nano",
+    "skipped": false,
+    "avg_ms": 2353,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 2236,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 2524,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 2299,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "gpt-5-mini (v36)",
+    "tag": "v36",
+    "model": "gpt-5-mini",
+    "skipped": false,
+    "avg_ms": 4555,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 4645,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 4418,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 4602,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "o4-mini (v36)",
+    "tag": "v36",
+    "model": "o4-mini",
+    "skipped": false,
+    "avg_ms": 4801,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 4908,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 3519,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 5977,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "o3-mini (v36)",
+    "tag": "v36",
+    "model": "o3-mini",
+    "skipped": false,
+    "avg_ms": 4153,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 3885,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 3679,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 4896,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "Mistral Large (NIM1)",
+    "tag": "NIM1",
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "skipped": false,
+    "avg_ms": 5164,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 1699,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 11579,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 2215,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "Qwen 3.5 (NIM1)",
+    "tag": "NIM1",
+    "model": "qwen/qwen3.5-397b-a17b",
+    "skipped": false,
+    "avg_ms": 10104,
+    "success_rate": 0.667,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 500,
+        "ms": 1247,
+        "content_len": 0,
+        "preview": ""
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 15205,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 5002,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "MiniMax M2.7 (NIM1)",
+    "tag": "NIM1",
+    "model": "minimaxai/minimax-m2.7",
+    "skipped": false,
+    "avg_ms": 9110,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 7529,
+        "content_len": 8,
+        "preview": "\\n\\n1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 6846,
+        "content_len": 8,
+        "preview": "\\n\\n1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 12955,
+        "content_len": 8,
+        "preview": "\\n\\n1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "Mistral Large (NIM2)",
+    "tag": "NIM2",
+    "model": "mistralai/mistral-large-3-675b-instruct-2512",
+    "skipped": false,
+    "avg_ms": 3505,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 1532,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 2165,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 6819,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "DS V4 Pro (NIM2)",
+    "tag": "NIM2",
+    "model": "deepseek-ai/deepseek-v4-pro",
+    "skipped": false,
+    "avg_ms": 2970,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 4108,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 3402,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 1399,
+        "content_len": 18,
+        "preview": "Spring Boot 1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "DS V4 Flash (NIM2)",
+    "tag": "NIM2",
+    "model": "deepseek-ai/deepseek-v4-flash",
+    "skipped": false,
+    "avg_ms": 6283,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 1057,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 11575,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 6218,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "deepseek-chat (直连)",
+    "tag": "直连",
+    "model": "deepseek-chat",
+    "skipped": false,
+    "avg_ms": 1272,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 1159,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 1479,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 1178,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  },
+  {
+    "name": "glm-4-flash (直连)",
+    "tag": "直连",
+    "model": "glm-4-flash",
+    "skipped": false,
+    "avg_ms": 6319,
+    "success_rate": 1.0,
+    "rounds": [
+      {
+        "round": 1,
+        "status": 200,
+        "ms": 1664,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 2,
+        "status": 200,
+        "ms": 3687,
+        "content_len": 6,
+        "preview": "1.5.10"
+      },
+      {
+        "round": 3,
+        "status": 200,
+        "ms": 13607,
+        "content_len": 6,
+        "preview": "1.5.10"
+      }
+    ]
+  }
+]

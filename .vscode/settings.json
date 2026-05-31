@@ -5,5 +5,8 @@
     },
     "markdown.styles": [
         ".vscode/markdown-table.css"
-    ]
+    ],
+    "workbench.editorAssociations": {
+        "*.md": "vscode.markdown.preview.editor"
+    }
 }

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import sys
 import time
@@ -23,7 +24,7 @@ from .config import (
     GLM_BASE_URL,
     GLM_MODEL,
 )
-from .prompts import LLM_JUDGE_PROMPT
+from .prompts import LLM_JUDGE_PROMPT, SUMMARY_SYSTEM_PROMPT
 from .client import NimChatClient
 from .evaluator import (
     evaluate_summary,
@@ -33,11 +34,6 @@ from .evaluator import (
     build_messages,
     build_messages_for_scenario,
     compact_model_slug,
-)
-from .reporter import (
-    write_scenario_summary_markdown,
-    write_summary_log,
-    build_analysis_table_rows,
 )
 from . import registry
 
@@ -232,6 +228,7 @@ def run_experiment(
     run_dir.mkdir(parents=True, exist_ok=True)
 
     result = {
+        "scenario": scenario_slug,
         "experiment": experiment_name,
         "model_name": model_name,
         "score": {},
@@ -292,15 +289,10 @@ def run_experiment(
 
     elapsed = time.time() - start
 
-    summary_path = write_summary_log(
-        output_dir=run_dir,
-        scenario=None,  # type: ignore — only uses model_slug for filename
-        experiment=None,  # type: ignore
-        summary=summary,
-        agent_input_path=payload_path,
-        retry_note=retry_note,
-        model_name=model_name,
-    )
+    # Write agent response to .txt
+    model_slug = compact_model_slug(model_name)
+    summary_path = run_dir / f"{model_slug}.txt"
+    summary_path.write_text(summary.rstrip() + "\n", encoding="utf-8")
 
     # Evaluate
     if llm_judge and deepseek_client is not None and summary.strip():
@@ -314,15 +306,6 @@ def run_experiment(
 
     sc = score_rows(evaluation_rows)
     result["score"] = sc
-
-    # Analysis rows for summary
-    analysis_rows = build_analysis_table_rows(
-        experiment_name=experiment_name,
-        facts=facts,
-        evaluation_rows=evaluation_rows,
-        summary_text=summary,
-    )
-    result["analysis_rows"] = analysis_rows
 
     # Save evaluation JSON
     eval_data = [
@@ -384,6 +367,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         if ds_key:
             deepseek_client = NimChatClient(
                 api_key=ds_key, model_name=DEEPSEEK_MODEL, base_url=DEEPSEEK_BASE_URL,
+                max_tokens=4096,  # LLM judge: short JSON responses
+            )
+            summary_client = NimChatClient(
+                api_key=ds_key, model_name=DEEPSEEK_MODEL, base_url=DEEPSEEK_BASE_URL,
+                max_tokens=16384,  # summary: 30+ experiments need more tokens
             )
             llm_judge = True
         else:
@@ -408,12 +396,6 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             if not registry.has_payload(scenario_slug, experiment_name):
                 print(f"  Skip {scenario_slug}/{experiment_name}: no payload registered")
                 continue
-            # Write pure reference page (copy from payload)
-            pure_src = registry.get_pure_page_path(scenario_slug)
-            if pure_src and pure_src.exists():
-                pure_dst = output_root / scenario_slug / "page_pure.html"
-                pure_dst.parent.mkdir(parents=True, exist_ok=True)
-                pure_dst.write_text(pure_src.read_text(encoding="utf-8"), encoding="utf-8")
 
             for model_name in models:
                 print(f"  Running: {scenario_slug}/{experiment_name} @ {compact_model_slug(model_name)}")
@@ -436,20 +418,94 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                 )
                 all_results.append(result)
 
-    # Write combined summaries per scenario
-    for scenario_slug in scenarios:
-        scenario_results = [r for r in all_results
-                          if r.get("experiment", "") in experiments]
-        if scenario_results:
-            write_scenario_summary_markdown(
-                output_root, scenario_slug, scenario_results, success_only=False,
-            )
-            write_scenario_summary_markdown(
-                output_root, scenario_slug, scenario_results, success_only=True,
-            )
+    # Write combined summaries per scenario via DeepSeek
+    if deepseek_client is not None:
+        for scenario_slug in scenarios:
+            scenario_dir = output_root / scenario_slug
+            generate_summary_with_deepseek(summary_client, scenario_dir, scenario_slug)
 
     print("Done.")
     return 0
+
+
+# ---------------------------------------------------------------------------
+# DeepSeek summary generation
+# ---------------------------------------------------------------------------
+
+def generate_summary_with_deepseek(
+    client: NimChatClient,
+    scenario_dir: Path,
+    scenario_slug: str,
+) -> None:
+    """Use DeepSeek to generate summary Markdown from raw .txt and .json files."""
+    # Collect all experiment data
+    user_parts: List[str] = [f"## 场景：{scenario_slug}\n"]
+    for exp_dir in sorted(scenario_dir.iterdir()):
+        if not exp_dir.is_dir():
+            continue
+        exp_name = exp_dir.name
+        # Load ground truth facts for this experiment
+        facts = registry.get_facts(scenario_slug, exp_name)
+        if facts:
+            facts_table = "| key | label | correct_value |\n|-----|-------|---------------|\n"
+            facts_table += "\n".join(
+                f"| {f.key} | {f.label} | {f.clean_value} |" for f in facts
+            )
+        else:
+            facts_table = "(无标准答案)"
+
+        for txt_file in sorted(exp_dir.glob("*.txt")):
+            if txt_file.name == "error.txt":
+                continue
+            model_slug = txt_file.stem
+            json_file = exp_dir / f"{model_slug}_evaluation.json"
+
+            agent_response = txt_file.read_text(encoding="utf-8").strip()
+            eval_json = json_file.read_text(encoding="utf-8") if json_file.exists() else "[]"
+
+            user_parts.append(f"### 实验：{exp_name} | 模型：{model_slug}\n")
+            user_parts.append("标准答案：\n" + facts_table + "\n")
+            user_parts.append("Agent 原始响应：\n```\n" + agent_response + "\n```\n")
+            user_parts.append("DeepSeek 评估结果 (JSON)：\n```json\n" + eval_json + "\n```\n")
+
+            # Precompute accuracy (correct/total) so DeepSeek doesn't miscount
+            try:
+                ed = json.loads(eval_json)
+                t = len(ed)
+                c = sum(1 for d in ed if d.get("status") == "correct")
+                user_parts.append(f"预计算 accuracy: {c}/{t} = {c/t:.2f}\n")
+            except Exception:
+                pass
+
+    user_message = "\n".join(user_parts)
+
+    # Generate summary
+    summary_path = scenario_dir / f"{scenario_slug}_summary.md"
+    _call_deepseek_summary(client, SUMMARY_SYSTEM_PROMPT, user_message, summary_path)
+
+
+def _call_deepseek_summary(
+    client: NimChatClient,
+    system_prompt: str,
+    user_message: str,
+    output_path: Path,
+) -> None:
+    """Call DeepSeek to generate a summary markdown file."""
+    import sys as _sys
+    try:
+        reply = client.chat([
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_message},
+        ])
+        # Strip code fences if present
+        reply = reply.strip()
+        if reply.startswith("```"):
+            reply = reply[reply.find("\n") + 1:]
+        if reply.endswith("```"):
+            reply = reply[:reply.rfind("```")].rstrip()
+        output_path.write_text(reply.strip() + "\n", encoding="utf-8")
+    except Exception as exc:
+        print(f"  [ERROR] DeepSeek summary failed for {output_path}: {exc}", file=_sys.stderr)
 
 
 if __name__ == "__main__":

@@ -17,12 +17,16 @@ DEFAULT_OUTPUT_DIR = SCRIPT_DIR / "log"
 DEFAULT_TIMEOUT = 90
 
 DEFAULT_MODELS: List[str] = [
-    "minimaxai/minimax-m2.7",
-    "qwen/qwen3.5-397b-a17b",
-    "mistralai/mistral-large-3-675b-instruct-2512",
-    "deepseek-chat",
-    "glm-4-flash",
-    "gpt-5.2",
+    "deepseek-chat",              # 直连 1.3s ⚡ 最速最稳
+    "gpt-5.4-nano",               # 讯型AI 1.7s ⚡ 极速
+    "gpt-4o-mini",                # v36 2.2s ⚡ 快速稳定
+    "claude-sonnet-4-6",          # 讯型AI 2.3s ⚡ 快速Claude
+    "claude-haiku-4-5-20251001",  # 讯型AI 2.5s ⚡ 快速轻量Claude
+    "gpt-5.4",                    # v36 2.8s ⚡ 稳定GPT-5
+    "claude-opus-4-7",            # 讯型AI - 最强Claude
+    "gpt-4.1-nano",               # v36 - 轻量GPT
+    "gpt-5.2",                    # GPT Proxy - GPT-5系列
+    "kimi-k2.6",                  # 讯型AI - 国产大模型
 ]
 
 ACTIVE_SCENARIO_NAMES: List[str] = ["Labyrinth", "CorpNet"]
@@ -41,32 +45,84 @@ GLM_BASE_URL = "https://open.bigmodel.cn/api/paas/v4"
 GLM_MODEL = "glm-4-flash"
 GPT_BASE_URL = "https://gmn.chuangzuoli.com/v1"
 GPT_MODEL = "gpt-5.2"
+V36_BASE_URL = "https://api.v36.cm/v1"
+XUNXAI_BASE_URL = "http://azpro.xunxkj.cn/v1"
 
 # 多提供商配置：每个模型 → base_url + API Key 环境变量名
 MODEL_PROVIDER_CONFIG: Dict[str, Dict] = {
+    # NVIDIA NIM (key1: NVIDIA_API_KEY, key2: NVIDIA_API_KEY_2)
     "minimaxai/minimax-m2.7": {
         "base_url": NIM_BASE_URL_DEFAULT,
-        "api_key_env_vars": NIM_API_KEY_ENV_VARS,
+        "api_key_env_vars": NIM_API_KEY_ENV_VARS + ("NVIDIA_API_KEY_2",),
     },
     "qwen/qwen3.5-397b-a17b": {
         "base_url": NIM_BASE_URL_DEFAULT,
-        "api_key_env_vars": NIM_API_KEY_ENV_VARS,
+        "api_key_env_vars": NIM_API_KEY_ENV_VARS + ("NVIDIA_API_KEY_2",),
     },
     "mistralai/mistral-large-3-675b-instruct-2512": {
         "base_url": NIM_BASE_URL_DEFAULT,
-        "api_key_env_vars": NIM_API_KEY_ENV_VARS,
+        "api_key_env_vars": NIM_API_KEY_ENV_VARS + ("NVIDIA_API_KEY_2",),
     },
+    "deepseek-ai/deepseek-v4-flash": {
+        "base_url": NIM_BASE_URL_DEFAULT,
+        "api_key_env_vars": ("NVIDIA_API_KEY_2",),
+    },
+    "deepseek-ai/deepseek-v4-pro": {
+        "base_url": NIM_BASE_URL_DEFAULT,
+        "api_key_env_vars": ("NVIDIA_API_KEY_2",),
+    },
+    # DeepSeek 直连
     "deepseek-chat": {
         "base_url": DEEPSEEK_BASE_URL,
         "api_key_env_vars": ("DEEPSEEK_API_KEY",),
     },
+    # ZhipuAI GLM 直连
     "glm-4-flash": {
         "base_url": GLM_BASE_URL,
         "api_key_env_vars": ("GLM_API_KEY",),
     },
+    # GPT Proxy (gmn.chuangzuoli.com)
     "gpt-5.2": {
         "base_url": GPT_BASE_URL,
         "api_key_env_vars": ("GPT_API_KEY",),
+    },
+    # v36 中转站 (api.v36.cm)
+    "gpt-5.4": {
+        "base_url": V36_BASE_URL,
+        "api_key_env_vars": ("V36_API_KEY",),
+    },
+    "gpt-4o-mini": {
+        "base_url": V36_BASE_URL,
+        "api_key_env_vars": ("V36_API_KEY",),
+    },
+    "gpt-4.1-nano": {
+        "base_url": V36_BASE_URL,
+        "api_key_env_vars": ("V36_API_KEY",),
+    },
+    # 讯型AI 中转站 (azpro.xunxkj.cn, 国内直连)
+    "gpt-5.4-nano": {
+        "base_url": XUNXAI_BASE_URL,
+        "api_key_env_vars": ("XUNXAI_API_KEY",),
+    },
+    "kimi-k2.6": {
+        "base_url": XUNXAI_BASE_URL,
+        "api_key_env_vars": ("XUNXAI_API_KEY",),
+    },
+    "claude-sonnet-4-6": {
+        "base_url": XUNXAI_BASE_URL,
+        "api_key_env_vars": ("XUNXAI_API_KEY",),
+    },
+    "claude-opus-4-7": {
+        "base_url": XUNXAI_BASE_URL,
+        "api_key_env_vars": ("XUNXAI_API_KEY",),
+    },
+    "claude-haiku-4-5-20251001": {
+        "base_url": XUNXAI_BASE_URL,
+        "api_key_env_vars": ("XUNXAI_API_KEY",),
+    },
+    "gemini-3.5-flash": {
+        "base_url": XUNXAI_BASE_URL,
+        "api_key_env_vars": ("XUNXAI_API_KEY",),
     },
 }
 

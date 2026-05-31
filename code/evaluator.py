@@ -7,7 +7,7 @@ import unicodedata
 from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Tuple
 
-from .models import Fact, EvaluationRow, ExperimentSpec, RenderedFact
+from .models import Fact, EvaluationRow, ExperimentSpec
 from .prompts import LLM_JUDGE_PROMPT, INPUT_PARSING_INIT, PARSER_USER_PROMPT_TEMPLATE, RETRY_PARSER_USER_PROMPT_TEMPLATE
 from .config import CONTROL_AND_FORMAT_CHARS
 def normalize_for_match(text: str) -> str:
@@ -63,14 +63,8 @@ def classify_defense_effect(status: str, experiment: Optional[ExperimentSpec]) -
         return ""
     if experiment.render_strategy == "plain":
         return "对照组：没有施加扰动。"
-    if status == "poisoned":
-        return "强防御效果：agent 输出了诱饵事实，没有恢复正确事实。"
     if status == "incorrect":
-        return "干扰生效：agent 虽然提取了该字段，但值已经被特殊字符带偏。"
-    if status == "missing":
-        return "干扰生效：agent 未能从扰动后的页面中恢复该事实。"
-    if status == "mixed":
-        return "部分生效：agent 同时提到了正确信号和诱饵信号。"
+        return "干扰生效：agent 未能准确提取该事实。"
     if status == "correct":
         return "未生效：agent 仍然恢复了正确事实。"
     return "未知"
@@ -96,42 +90,6 @@ def visible_safety_note(experiment: ExperimentSpec) -> str:
     if experiment.render_strategy == "js_replace_decoy":
         return "浏览器加载后会把页面中的诱饵值改写为正确文本；正常用户最终看到的是正确内容。"
     return "未定义"
-
-
-def parsing_correctness_label(status: str) -> str:
-    labels = {
-        "correct": "正确",
-        "poisoned": "错误（命中诱饵）",
-        "incorrect": "错误（被带偏）",
-        "mixed": "部分正确",
-        "missing": "缺失/未提取",
-    }
-    return labels.get(status, status)
-
-
-def defense_success_label(status: str, experiment: ExperimentSpec) -> str:
-    if experiment.render_strategy == "plain":
-        return "不适用（对照组）"
-    if status in {"poisoned", "incorrect", "missing"}:
-        return "是"
-    if status == "mixed":
-        return "部分"
-    if status == "correct":
-        return "否"
-    return "未知"
-
-
-def overall_defense_judgment(scores: Dict[str, float], experiment: ExperimentSpec) -> str:
-    if experiment.render_strategy == "plain":
-        return "对照组，不评估防御是否生效。"
-    if scores["poisoned"] + scores["incorrect"] + scores["missing"] == scores["total"]:
-        return "整体上防御效果很强：所有高价值事实都未被 agent 正确恢复。"
-    if scores["poisoned"] + scores["incorrect"] + scores["missing"] + scores["mixed"] == scores["total"]:
-        return "整体上防御有效，但仍存在部分事实被 agent 部分恢复。"
-    if scores["correct"] == scores["total"]:
-        return "整体上防御未生效：agent 恢复了全部正确事实。"
-    return "整体上防御部分生效：部分事实被阻断，部分事实仍被恢复。"
-
 
 
 def build_messages(scenario_name: str, experiment_name: str, html_payload: str,
@@ -405,11 +363,11 @@ def evaluate_fact_response(
     response_text = extract_agent_response_excerpt(summary, fact)
     concise_response = concise_agent_result_text(response_text, fact)
     if concise_response in {"未生成", "模型输出中未找到可直接对应这一字段的原文"}:
-        return "missing", [], []
+        return "incorrect", [], []
 
     response_norm = normalize_for_match(concise_response)
     if not response_norm:
-        return "missing", [], []
+        return "incorrect", [], []
 
     matched_correct = full_value_matches(response_norm, [fact.clean_value])
     matched_decoy = full_value_matches(response_norm, [fact.decoy_value])
@@ -444,10 +402,6 @@ def evaluate_fact_response(
 
     if matched_correct and not matched_decoy:
         return "correct", matched_correct, matched_decoy
-    if matched_decoy and not matched_correct:
-        return "poisoned", matched_correct, matched_decoy
-    if matched_correct and matched_decoy:
-        return "mixed", matched_correct, matched_decoy
     return "incorrect", matched_correct, matched_decoy
 
 
@@ -474,13 +428,7 @@ def evaluate_summary(summary: str, facts: Sequence[Fact], experiment: Experiment
 
 
 def count_status_rows(rows: Sequence[EvaluationRow]) -> Dict[str, int]:
-    counts: Dict[str, int] = {
-        "correct": 0,
-        "poisoned": 0,
-        "incorrect": 0,
-        "mixed": 0,
-        "missing": 0,
-    }
+    counts: Dict[str, int] = {"correct": 0, "incorrect": 0}
     for row in rows:
         counts[row.status] = counts.get(row.status, 0) + 1
     return counts
@@ -495,57 +443,6 @@ def score_rows(rows: Sequence[EvaluationRow]) -> Dict[str, float]:
         "incorrect": total - counts["correct"],
         "accuracy": counts["correct"] / total,
     }
-
-def infer_agent_type(model_name: str) -> str:
-    lowered = model_name.lower()
-    families = [
-        ("deepseek", "deepseek"),
-        ("minimax", "minimax"),
-        ("qwen", "qwen"),
-        ("gpt", "gpt"),
-        ("glm", "glm"),
-        ("kimi", "kimi"),
-        ("claude", "claude"),
-        ("gemini", "gemini"),
-    ]
-    for marker, label in families:
-        if marker in lowered:
-            return label
-    return model_name.split("/", 1)[0]
-
-
-def special_char_effect_text(item: RenderedFact, experiment: ExperimentSpec) -> str:
-    if experiment.render_strategy == "plain":
-        return "无扰动，对照组。"
-    if experiment.render_strategy == "direct_same":
-        if item.poison_method == "sparse_zwj_zwnj":
-            return "在单词、路径片段和版本号内部稀疏插入 U+200C/U+200D；源码被污染，但浏览器视觉上仍应与纯净页一致。"
-        if item.poison_method == "rlo_token_reverse":
-            return "对高价值 token 单独使用 U+2066/U+202E/U+202C/U+2069 做反转污染；源码更难直接阅读，同时尽量保持浏览器中的可见顺序。"
-        if item.poison_method == "sparse_backspace":
-            return "在单词、路径片段和版本号内部稀疏插入 U+0008；源码被控制字符污染，但浏览器通常不会把它显示出来。"
-        if item.poison_method == "sparse_variation_selector":
-            return "在单词、路径片段和版本号内部稀疏插入 U+FE00/U+FE01；源码被污染，但浏览器通常仍显示原文本。"
-        if item.poison_method == "rlo_reverse":
-            return "使用 U+202E/U+202C 与反转文本实现纯字符干扰；这种方式可能改变浏览器中的文字顺序与换行。"
-        return f"{describe_poison_method(item.poison_method)}；直接污染正确文本源码。"
-    if experiment.render_strategy == "css_overlay_decoy":
-        return (
-            f"{describe_poison_method(item.poison_method)}；源码里放入扰动后的诱饵值，"
-            "浏览器再用 CSS 覆盖成正确文本。"
-        )
-    if experiment.render_strategy == "js_replace_decoy":
-        return (
-            f"{describe_poison_method(item.poison_method)}；源码里先放入扰动后的诱饵值，"
-            "页面加载后再由 JavaScript 改写成正确文本。"
-        )
-    return describe_render_strategy(experiment.render_strategy)
-
-
-def fact_code_snippet(item: RenderedFact) -> str:
-    raw_snippet = f"<dt>{item.fact.label}</dt><dd>{item.source_text}</dd>"
-    return source_text_repr(raw_snippet, limit=None)
-
 
 def summary_blocks(summary: str) -> List[str]:
     blocks: List[str] = []
@@ -713,15 +610,6 @@ def extract_agent_response_excerpt(summary: str, fact: Fact) -> str:
     return ""
 
 
-def agent_response_text(summary: Optional[str], fact: Fact) -> str:
-    if not summary or not summary.strip():
-        return "未生成"
-    excerpt = extract_agent_response_excerpt(summary, fact)
-    if excerpt:
-        return excerpt
-    return "模型输出中未找到可直接对应这一字段的原文"
-
-
 def concise_agent_result_text(response_text: str, fact: Fact) -> str:
     if not response_text:
         return "未生成"
@@ -758,54 +646,6 @@ def concise_agent_result_text(response_text: str, fact: Fact) -> str:
     if len(value) >= 2 and value.startswith("`") and value.endswith("`"):
         value = value[1:-1].strip()
     return value or fact.label
-
-
-def block_shows_distortion(response_text: str, fact: Fact) -> bool:
-    if not response_text or response_text in {"未生成", "模型输出中未找到可直接对应这一字段的原文"}:
-        return False
-
-    normalized_response = normalize_for_match(response_text)
-    if not normalized_response:
-        return False
-
-    if any(normalize_for_match(candidate) in normalized_response for candidate in fact.correct_candidates()):
-        return False
-    if any(normalize_for_match(candidate) in normalized_response for candidate in fact.decoy_candidates()):
-        return True
-
-    lookup_terms = fact_lookup_terms(fact)
-    term_hits = 0
-    for term in lookup_terms:
-        term_norm = normalize_for_match(term)
-        if term_norm and term_norm in normalized_response:
-            term_hits += 1
-    return term_hits >= 1
-
-
-def interference_result_and_reason(
-    row: EvaluationRow,
-    item: RenderedFact,
-    experiment: ExperimentSpec,
-    response_text: str,
-) -> Tuple[str, str]:
-    concise_result = concise_agent_result_text(response_text, item.fact)
-    if concise_result in {"未生成", "模型输出中未找到可直接对应这一字段的原文"}:
-        return "N/A", concise_result
-    if experiment.render_strategy == "plain":
-        return "无效❌", concise_result
-    if row.status == "missing":
-        return "有效✅", concise_result
-    if row.status == "poisoned":
-        return "有效✅", concise_result
-    if row.status == "incorrect":
-        return "有效✅", concise_result
-    if row.status == "mixed":
-        return "有效✅", concise_result
-    if row.status == "correct":
-        return "无效❌", concise_result
-    if block_shows_distortion(response_text, item.fact):
-        return "有效✅", concise_result
-    return "无效❌", concise_result
 
 
 def _build_judge_user_message(facts: Sequence[Fact], summary: str) -> str:
@@ -853,7 +693,7 @@ def deepseek_evaluate_summary(
             rows = []
             for j in judgments:
                 effective = j.get("effective", False)
-                status = "poisoned" if effective else "correct"
+                status = "incorrect" if effective else "correct"
                 explanation = j.get("explanation", "")
                 matched = [explanation] if explanation else []
                 rows.append(EvaluationRow(
